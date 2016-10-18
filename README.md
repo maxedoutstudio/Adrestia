@@ -5,7 +5,7 @@
 - Fetch remote changes: ```git fetch```
 - Make new branch: ```git branch <branch_name>```
 - Switch to a branch: ```git checkout <branch_name>```
-- Update branch: ```git pull origin/<branch_name>```
+- Update local branch from remote: ```git pull origin <branch_name>```
 - Add changes to a commit: ```git add <file_path>``` or ```git add .``` to add all changes
 - Commit changes: ```git commit -m "<commit_message>"```
 - Push commits: ```git push origin <branch_name>```
