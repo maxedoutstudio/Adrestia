@@ -3,62 +3,64 @@ using System.Collections;
 
 public class PowerupTracker : MonoBehaviour 
 {
+	public GameObject backwardPowerUp;
+	public GameObject leftRightPowerUp;
+	public GameObject sprintPowerUp;
+	public GameObject firePowerUp;
+	public GameObject lightningPowerUp;
+	public GameObject waterPowerUp;
+
 	private bool canBackward;
 	private bool canLeftRight;
 	private bool canSprint;
-	private bool canCrouch;
 	private bool canFire;
 	private bool canLightning;
 	private bool canWater;
-
-	public GameObject firePowerUp;
 
 	void Start()
 	{
 		canBackward = false;
 		canLeftRight = false;
 		canSprint = false;
-		canCrouch = false;
 		canFire = false;
 		canLightning = false;
 		canWater = false;
-
-		GameObject fire = (GameObject)Instantiate (firePowerUp);
 	}
 
 	public void aquireBackward()
 	{
 		canBackward = true;
+		Destroy (backwardPowerUp);
 	}
 
 	public void aquireLeftRight()
 	{
 		canLeftRight = true;
+		Destroy (leftRightPowerUp);
 	}
 
 	public void aquireSprint()
 	{
 		canSprint = true;
-	}
-
-	public void aquireCrouch()
-	{
-		canCrouch = true;
+		Destroy (sprintPowerUp);
 	}
 
 	public void aquireFire()
 	{
 		canFire = true;
+		Destroy (firePowerUp);
 	}
 
 	public void aquireLightning()
 	{
 		canLightning = true;
+		Destroy (lightningPowerUp);
 	}
 
 	public void aquireWater()
 	{
 		canWater = true;
+		Destroy (waterPowerUp);
 	}
 
 	public bool getCanBackward()
@@ -74,11 +76,6 @@ public class PowerupTracker : MonoBehaviour
 	public bool getCanSprint()
 	{
 		return canSprint;
-	}
-
-	public bool getCanCrouch()
-	{
-		return canCrouch;
 	}
 
 	public bool getCanFire()
