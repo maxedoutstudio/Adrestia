@@ -68,6 +68,9 @@ public class FirstPersonController : MonoBehaviour {
 		if (Input.GetButtonDown("Jump") && grounded) {
             rigidbody.AddForce(transform.up * jumpForce);
         }
+		if (Input.GetKey (KeyCode.Space) && !grounded && rigidbody.velocity.y < 0) {
+			rigidbody.AddForce (transform.up * 20);
+		}
 
         // Grounded check
         Ray ray = new Ray(transform.position, -transform.up);
