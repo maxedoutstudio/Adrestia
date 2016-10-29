@@ -9,6 +9,9 @@ public class PowerupTracker : MonoBehaviour
 	public GameObject firePowerUp;
 	public GameObject lightningPowerUp;
 	public GameObject waterPowerUp;
+    public GameObject levitatePowerUp;
+    public GameObject jumpPowerUp;
+    public GameObject doubleJumpPowerUp;
 
 	private bool canBackward;
 	private bool canLeftRight;
@@ -16,6 +19,9 @@ public class PowerupTracker : MonoBehaviour
 	private bool canFire;
 	private bool canLightning;
 	private bool canWater;
+    private bool canJump;
+    private bool canDoubleJump;
+    private bool canLevitate;
 
 	void Start()
 	{
@@ -25,6 +31,9 @@ public class PowerupTracker : MonoBehaviour
 		canFire = false;
 		canLightning = false;
 		canWater = false;
+        canJump = false;
+        canDoubleJump = false;
+        canLevitate = false;
 	}
 
 	public void aquireBackward()
@@ -63,6 +72,24 @@ public class PowerupTracker : MonoBehaviour
 		Destroy (waterPowerUp);
 	}
 
+    public void aquireJump()
+    {
+        canJump = true;
+        Destroy (jumpPowerUp);
+    }
+
+    public void aquireDoubleJump()
+    {
+        canDoubleJump = true;
+        Destroy (doubleJumpPowerUp);
+    }
+
+    public void aquireLevitate()
+    {
+        canLevitate = true;
+        Destroy(levitatePowerUp);
+    }
+
 	public bool getCanBackward()
 	{
 		return canBackward;
@@ -93,4 +120,18 @@ public class PowerupTracker : MonoBehaviour
 		return canWater;
 	}
 
+    public bool getCanLevitate()
+    {
+        return canLevitate;
+    }
+
+    public bool getCanJump()
+    {
+        return canJump;
+    }
+
+    public bool getCanDoubleJump()
+    {
+        return canDoubleJump;
+    }
 }
