@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent (typeof (Rigidbody))]
 public class Body : MonoBehaviour {
 
 	public Attractor attractor;
