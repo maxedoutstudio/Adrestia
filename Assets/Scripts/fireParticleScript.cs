@@ -21,9 +21,12 @@ public class fireParticleScript : MonoBehaviour
         if(obj.tag == "BackwardSkill")
         {
             Destroy(obj);
-
         }
-
+       
+        if(obj.name != "MageWhite" && obj.name != "Planet")
+        {
+            gameObject.GetComponent<ParticleSystem>().Clear();
+        }
 
     }
 }
