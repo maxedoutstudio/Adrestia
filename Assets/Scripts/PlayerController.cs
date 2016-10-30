@@ -12,35 +12,61 @@ public class PlayerController : MonoBehaviour {
     ParticleSystem myParticlesWater;
     ParticleSystem myParticlesLightning;
 
+    Animator mageAnimator;
     private int power = 0;
+    bool imAttacking;
+    bool imMoving;
+    float currentTime;
+    float nextAttackDelay;
+    bool waiting;
 
     void Start()
     {
+        waiting = false;
+        nextAttackDelay =0;
+        currentTime = 0;
+        imAttacking = false;
+        imMoving = false;
+        mageAnimator = GetComponent<Animator>();
         myParticlesFire = GameObject.Find("MageWhite/Fire").GetComponent<ParticleSystem>();
         myParticlesWater = GameObject.Find("MageWhite/Water").GetComponent<ParticleSystem>();
         myParticlesLightning = GameObject.Find("MageWhite/Lightning").GetComponent<ParticleSystem>();
     }
 	
 	void Update () {
-		moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+
+        mageAnimator.SetBool("isMoving", imMoving);
+        mageAnimator.SetBool("isAttacking", imAttacking);
+
+        if (Input.GetKey("w"))
+        {
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+            imMoving = true;
+        }
 
 		if (Input.GetKeyDown ("space") && put_GO.getCanJump())
         {
             Debug.Log ("Jump!");
         }
 
-        if (Input.GetKeyDown("down") && put_GO.getCanBackward())
+        if (Input.GetKey("s") && put_GO.getCanBackward())
         {
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+            imMoving = true;
             Debug.Log("Backward!");
         }
 
-        if(Input.GetKeyDown("left") && put_GO.getCanLeftRight())
+        if(Input.GetKey("a") && put_GO.getCanLeftRight())
         {
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+            imMoving = true;
             Debug.Log("Left!");
         }
 
-        if(Input.GetKeyDown("right") && put_GO.getCanLeftRight())
+        if(Input.GetKey("d") && put_GO.getCanLeftRight())
         {
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+            imMoving = true;
             Debug.Log("Right!");
         }
 
@@ -72,7 +98,15 @@ public class PlayerController : MonoBehaviour {
             power = 3;
         }
 
-        if (Input.GetMouseButtonDown(0) && power != 0)
+        if (Input.GetMouseButtonDown(0) && power != 0 && Time.time > nextAttackDelay && waiting == false)
+        {
+            waiting = true;
+            imAttacking = true;
+            imMoving = false;
+            currentTime = Time.time + 0.4f;
+        }
+
+        if(imAttacking == true && Time.time > currentTime)
         {
             if(power == 1)
             {
@@ -87,7 +121,30 @@ public class PlayerController : MonoBehaviour {
             {
                 myParticlesLightning.Play();
             }
+            imAttacking = false;
+            nextAttackDelay = Time.time + 0.5f;
+            waiting = false;
+        }
 
+        if(Input.GetKeyUp("w"))
+        {
+            imMoving = false;
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+        }
+        if(Input.GetKeyUp("a"))
+        {
+            imMoving = false;
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+        }
+        if(Input.GetKeyUp("s"))
+        {
+            imMoving = false;
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
+        }
+        if(Input.GetKeyUp("d"))
+        {
+            imMoving = false;
+            moveDirection = new Vector3 (Input.GetAxisRaw ("Horizontal"), 0, Input.GetAxisRaw ("Vertical")).normalized;
         }
 	}
 
