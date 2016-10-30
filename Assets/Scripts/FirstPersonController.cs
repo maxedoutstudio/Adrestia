@@ -9,24 +9,38 @@ public class FirstPersonController : MonoBehaviour {
 	public float mouseSensitivityY = 1;
 	public float walkSpeed = 6;
     public float runSpeed = 10;
-	public float jumpForce = 220;
+	public float jumpForce = 500;
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
-	
-	// System vars
-	bool grounded;
+
+    // Skills
+    public ParticleSystem myParticlesFire;
+    public ParticleSystem myParticlesWater;
+    public ParticleSystem myParticlesLightning;
+
+    // Animation toggle vars
+    bool grounded;
     bool isWalking;
     bool isRunning;
+    bool isAttacking;
 
-	Vector3 moveAmount;
-	Vector3 smoothMoveVelocity;
-	float verticalLookRotation;
-	Transform cameraTransform;
-	Rigidbody rigidbody;
+    // Reference vars
+    Transform cameraTransform;
+    Rigidbody rigidbody;
     Animator animator;
+
+    // Smoothing vars
+    Vector3 moveAmount;
+	Vector3 smoothMoveVelocity;
 	
-    void Start() {
-        
+    // Powerup checks
+    int powerUp;
+    bool waiting;
+    float currentTime;
+    float nextAttackDelay;
+
+    void Start()
+    {
     }
 	
 	void Awake() {
@@ -35,11 +49,13 @@ public class FirstPersonController : MonoBehaviour {
 		cameraTransform = Camera.main.transform;
         rigidbody = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
+        powerUp = 0;
 	}
 	
 	void Update() {
 		
-		if (((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.A)) && put_GO.getCanLeftRight())
+        // Make sure movement mechanics are unlocked
+		if (((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && put_GO.getCanLeftRight())
 			|| (Input.GetKey(KeyCode.S) && put_GO.getCanBackward()) || Input.GetKey(KeyCode.W)) {
             isWalking = true;
         } else {
@@ -48,17 +64,10 @@ public class FirstPersonController : MonoBehaviour {
 
 		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint();
 
-        animator.SetBool("isWalking", isWalking);
-        animator.SetBool("isRunning", isRunning);
-
-        // Look rotation:
+        // Look rotation; enable after backward mechanic is unlocked
 		if (put_GO.getCanBackward()) transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
-		//verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
-		//verticalLookRotation = Mathf.Clamp(verticalLookRotation,-30,30);
-		//cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
 
 		// Calculate movement:
-
 		float inputX = put_GO.getCanLeftRight() ? Input.GetAxisRaw("Horizontal") : 0;
 		float inputY = (!put_GO.getCanBackward() && Input.GetKey(KeyCode.S)) ? 0 : Input.GetAxisRaw("Vertical");
 
@@ -78,13 +87,58 @@ public class FirstPersonController : MonoBehaviour {
         Ray ray = new Ray(transform.position, -transform.up);
 		RaycastHit hit;
 		
-		if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask)) {
-			grounded = true;
-		} else {
+		if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
+        {
+            grounded = true;
+		}
+        else
+        {
 			grounded = false;
 		}
 
+        // Mouse input
+        if (Input.GetMouseButtonDown(0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false)
+        {
+            waiting = true;
+            isAttacking = true;
+            currentTime = Time.time + 0.4f;
+        }
+
+        // Powerup selector checks
+        if (Input.GetKeyDown("1") && put_GO.getCanFire())
+        {
+            Debug.Log("Fire selected");
+            powerUp = 1;
+        }
+        else if (Input.GetKeyDown("2") && put_GO.getCanWater())
+        {
+            Debug.Log("Water selected");
+            powerUp = 2;
+        }
+        else if (Input.GetKeyDown("3") && put_GO.getCanLightning())
+        {
+            Debug.Log("Lightning selected");
+            powerUp = 3;
+        }
+
+        if (isAttacking && Time.time > currentTime)
+        {
+            switch (powerUp)
+            {
+                case 1: myParticlesFire.Play(); break;
+                case 2: myParticlesWater.Play(); break;
+                case 3: myParticlesLightning.Play(); break;
+            }
+            isAttacking = false;
+            nextAttackDelay = Time.time + 0.5f;
+            waiting = false;
+        }
+
+        // Animation toggles
+        animator.SetBool("isWalking", isWalking);
+        animator.SetBool("isRunning", isRunning);
         animator.SetBool("isGrounded", grounded);
+        animator.SetBool("isAttacking", isAttacking);
     }
 	
 	void FixedUpdate() {
@@ -93,51 +147,21 @@ public class FirstPersonController : MonoBehaviour {
 		rigidbody.MovePosition(rigidbody.position + localMove);
 	}
 
-	void OnCollisionEnter(Collision col)
-	{
-		if (col.gameObject.tag == "BackwardSkill")
-		{
-			put_GO.aquireBackward ();
-		}
+    void OnCollisionEnter(Collision col)
+    {
+        switch (col.gameObject.tag)
+        {
+            case "BackwardSkill": put_GO.aquireBackward(); break;
+            case "LeftRightSkill": put_GO.aquireLeftRight(); break;
+            case "SprintSkill": put_GO.aquireSprint(); break;
+            case "JumpSkill": put_GO.aquireJump(); break;
+            case "LevitateSkill": put_GO.aquireLevitate(); break;
 
-		if (col.gameObject.tag == "LeftRightSkill")
-		{
-			put_GO.aquireLeftRight ();
-		}
+            case "FireSkill": put_GO.aquireFire(); powerUp = 1; break;
+            case "WaterSkill": put_GO.aquireWater(); powerUp = 2; break;
+            case "LightningSkill": put_GO.aquireLightning(); powerUp = 2; break;
 
-		if (col.gameObject.tag == "SprintSkill")
-		{
-			put_GO.aquireSprint ();
-		}
-
-		if (col.gameObject.tag == "FireSkill")
-		{
-			put_GO.aquireFire ();
-		}
-
-		if (col.gameObject.tag == "LightningSkill")
-		{
-			put_GO.aquireLightning ();
-		}
-
-		if (col.gameObject.tag == "WaterSkill")
-		{
-			put_GO.aquireWater ();
-		}
-
-		if(col.gameObject.tag == "JumpSkill")
-		{
-			put_GO.aquireJump();
-		}
-
-		if(col.gameObject.tag == "DoubleJumpSkill")
-		{
-			put_GO.aquireDoubleJump();
-		}
-
-		if(col.gameObject.tag == "LevitateSkill")
-		{
-			put_GO.aquireLevitate();
-		}
-	}
+            case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
+        }
+    }
 }

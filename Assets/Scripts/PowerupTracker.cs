@@ -13,6 +13,8 @@ public class PowerupTracker : MonoBehaviour
 	public GameObject jumpPowerUp;
 	public GameObject doubleJumpPowerUp;
 
+    public bool unlockAll;
+
 	private bool canBackward;
 	private bool canLeftRight;
 	private bool canSprint;
@@ -25,15 +27,15 @@ public class PowerupTracker : MonoBehaviour
 
 	void Start()
 	{
-		canBackward = false;
-		canLeftRight = false;
-		canSprint = false;
-		canFire = false;
-		canLightning = false;
-		canWater = false;
-		canJump = false;
-		canDoubleJump = false;
-		canLevitate = false;
+		canBackward = unlockAll;
+		canLeftRight = unlockAll;
+		canSprint = unlockAll;
+		canFire = unlockAll;
+		canLightning = unlockAll;
+		canWater = unlockAll;
+		canJump = unlockAll;
+		canDoubleJump = unlockAll;
+		canLevitate = unlockAll;
 	}
 
 	public void aquireBackward()
