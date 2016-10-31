@@ -159,7 +159,7 @@ public class FirstPersonController : MonoBehaviour {
 
             case "FireSkill": put_GO.aquireFire(); powerUp = 1; break;
             case "WaterSkill": put_GO.aquireWater(); powerUp = 2; break;
-            case "LightningSkill": put_GO.aquireLightning(); powerUp = 2; break;
+            case "LightningSkill": put_GO.aquireLightning(); powerUp = 3; break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
