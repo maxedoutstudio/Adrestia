@@ -80,7 +80,7 @@ public class FirstPersonController : MonoBehaviour {
             rigidbody.AddForce(transform.up * jumpForce);
         }
 		if (Input.GetKey (KeyCode.Space) && !grounded && rigidbody.velocity.y < 0 && put_GO.getCanLevitate()) {
-			rigidbody.AddForce (transform.up * 16);
+			rigidbody.AddForce (transform.up * 14);
 		}
 
         // Grounded check
