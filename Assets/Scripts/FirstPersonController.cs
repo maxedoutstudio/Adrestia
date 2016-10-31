@@ -99,6 +99,7 @@ public class FirstPersonController : MonoBehaviour {
         // Mouse input
         if (Input.GetMouseButtonDown(0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false)
         {
+            //isWalking = false;
             waiting = true;
             isAttacking = true;
             currentTime = Time.time + 0.4f;
