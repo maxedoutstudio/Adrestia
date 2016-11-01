@@ -10,6 +10,7 @@ public class FirstPersonController : MonoBehaviour {
 	public float walkSpeed = 6;
     public float runSpeed = 10;
 	public float jumpForce = 500;
+	public float levitateForce;
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
@@ -18,6 +19,7 @@ public class FirstPersonController : MonoBehaviour {
     public AudioClip fireSound;
     public AudioClip waterSound;
     public AudioClip lightningSound;
+	public AudioClip walkingSound;
 
     // Skills
     public ParticleSystem myParticlesFire;
@@ -86,7 +88,7 @@ public class FirstPersonController : MonoBehaviour {
             rigidbody.AddForce(transform.up * jumpForce);
         }
 		if (Input.GetKey (KeyCode.Space) && !grounded && rigidbody.velocity.y < 0 && put_GO.getCanLevitate()) {
-			rigidbody.AddForce (transform.up * 14);
+			rigidbody.AddForce (transform.up * levitateForce);
 		}
 
         // Grounded check
