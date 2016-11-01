@@ -15,7 +15,8 @@ public class FirstPersonController : MonoBehaviour {
 	public PowerupTracker put_GO;
 
     // audio stuff
-    public AudioClip pickupSound;
+    public AudioSource pickupSound;
+    AudioSource myPickupSound;
     public AudioClip fireSound;
     public AudioClip waterSound;
     public AudioClip lightningSound;
@@ -49,6 +50,7 @@ public class FirstPersonController : MonoBehaviour {
 
     void Start()
     {
+        myPickupSound = pickupSound.GetComponent<AudioSource>();
     }
 	
 	void Awake() {
@@ -158,6 +160,8 @@ public class FirstPersonController : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
+        if (col.gameObject.tag.Contains("Skill")) Instantiate(myPickupSound);
+
         switch (col.gameObject.tag)
         {
             case "BackwardSkill": put_GO.aquireBackward(); break;
