@@ -13,6 +13,12 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+    // audio stuff
+    public AudioClip pickupSound;
+    public AudioClip fireSound;
+    public AudioClip waterSound;
+    public AudioClip lightningSound;
+
     // Skills
     public ParticleSystem myParticlesFire;
     public ParticleSystem myParticlesWater;
@@ -126,9 +132,9 @@ public class FirstPersonController : MonoBehaviour {
         {
             switch (powerUp)
             {
-                case 1: myParticlesFire.Play(); break;
-                case 2: myParticlesWater.Play(); break;
-                case 3: myParticlesLightning.Play(); break;
+                case 1: myParticlesFire.Play(); AudioSource.PlayClipAtPoint(fireSound, transform.position); break;
+                case 2: myParticlesWater.Play(); AudioSource.PlayClipAtPoint(waterSound, transform.position); break;
+                case 3: myParticlesLightning.Play(); AudioSource.PlayClipAtPoint(lightningSound, transform.position); break;
             }
             isAttacking = false;
             nextAttackDelay = Time.time + 0.5f;
