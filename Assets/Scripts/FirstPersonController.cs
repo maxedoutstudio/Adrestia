@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 [RequireComponent (typeof (GravityBody))]
 public class FirstPersonController : MonoBehaviour {
@@ -176,5 +177,15 @@ public class FirstPersonController : MonoBehaviour {
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
+
+		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap")
+			SceneManager.LoadScene("FirePlanet", LoadSceneMode.Single);
+
+		//if (col.gameObject.tag == "MovingPlatform")
     }
+
+	/*void OnCollisionExit(Collision col)
+	{
+		if (col.gameObject.tag == "MovingPlatform")
+	}*/
 }
