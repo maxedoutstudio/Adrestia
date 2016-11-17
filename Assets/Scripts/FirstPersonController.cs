@@ -6,8 +6,8 @@ using UnityEngine.SceneManagement;
 public class FirstPersonController : MonoBehaviour {
 	
 	// public vars
-	public float mouseSensitivityX = 1;
-	public float mouseSensitivityY = 1;
+	public float mouseSensitivityX = 0.2f;
+	public float mouseSensitivityY = 0.2f;
 	public float walkSpeed = 6;
     public float runSpeed = 10;
 	public float jumpForce = 500;
@@ -48,6 +48,7 @@ public class FirstPersonController : MonoBehaviour {
     bool waiting;
     float currentTime;
     float nextAttackDelay;
+	float verticalLookRotation;
 
     void Start()
     {
@@ -76,7 +77,12 @@ public class FirstPersonController : MonoBehaviour {
 		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && grounded;
 
         // Look rotation; enable after backward mechanic is unlocked
-		if (put_GO.getCanBackward()) transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
+		if (put_GO.getCanBackward ()) {
+			transform.Rotate (Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
+			verticalLookRotation += Input.GetAxis ("Mouse Y") * mouseSensitivityY;
+			verticalLookRotation = Mathf.Clamp (verticalLookRotation, -30, 5);
+			cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
+		}
 
 		// Calculate movement:
 		float inputX = put_GO.getCanLeftRight() ? Input.GetAxisRaw("Horizontal") : 0;
@@ -178,8 +184,11 @@ public class FirstPersonController : MonoBehaviour {
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
 
-		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap")
+		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap")
 			SceneManager.LoadScene("FirePlanet", LoadSceneMode.Single);
+
+		if (col.gameObject.tag == "Switch")
+			Destroy (col.gameObject);
 
 		//if (col.gameObject.tag == "MovingPlatform")
     }
