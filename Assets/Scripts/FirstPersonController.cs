@@ -184,7 +184,7 @@ public class FirstPersonController : MonoBehaviour {
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
 
-		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap")
+		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap")
 			SceneManager.LoadScene("FirePlanet", LoadSceneMode.Single);
 
 		if (col.gameObject.tag == "Switch")
