@@ -80,8 +80,8 @@ public class FirstPersonController : MonoBehaviour {
 
 		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && grounded;
 
-        // Look rotation; enable after backward mechanic is unlocked
-		if (put_GO.getCanBackward()) transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
+        // Look rotation; enable after left-right mechanic is unlocked
+		if (put_GO.getCanLeftRight()) transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
 
 		// Calculate movement:
 		float inputX = put_GO.getCanLeftRight() ? Input.GetAxisRaw("Horizontal") : 0;
