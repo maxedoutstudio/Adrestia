@@ -14,6 +14,9 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+	public ParticleSystem planet01;
+	public ParticleSystem planet02;
+
     // audio stuff
     public AudioSource pickupSound;
     AudioSource myPickupSound;
@@ -48,6 +51,8 @@ public class FirstPersonController : MonoBehaviour {
     bool waiting;
     float currentTime;
     float nextAttackDelay;
+
+	bool jumped = false;
 
     void Start()
     {
@@ -85,26 +90,25 @@ public class FirstPersonController : MonoBehaviour {
         Vector3 moveDir = new Vector3(inputX, 0, inputY).normalized;
 		Vector3 targetMoveAmount = moveDir * (isRunning ? runSpeed : walkSpeed);
         moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
-		
+
 		// Jump
 		if (Input.GetButtonDown("Jump") && grounded && put_GO.getCanJump()) {
-			grounded = false;
 			rigidbody.AddForce(transform.up * jumpForce);
-        }
+        } else
 		if (Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) {
 			rigidbody.AddForce (transform.up * levitateForce);
 		}
 
-        // Grounded check
-        Ray ray = new Ray(transform.position, -transform.up);
+		// Grounded check
+		Ray ray = new Ray(transform.position, -transform.up);
 		RaycastHit hit;
-		
+
 		if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
-        {
-            grounded = true;
+		{
+			grounded = true;
 		}
-        else
-        {
+		else
+		{
 			grounded = false;
 		}
 
@@ -114,6 +118,10 @@ public class FirstPersonController : MonoBehaviour {
 			waiting = true;
 			if ((transform.position.x > -1.8 && transform.position.x < 1.8) && (transform.position.z > -31 && transform.position.z < -28)) {
 				isCasting = true;
+				planet01.Play ();
+			} else if ((transform.position.x > 24 && transform.position.x < 26) && (transform.position.z > -16 && transform.position.z < -14)) {
+				isCasting = true;
+				planet02.Play ();
 			} else {
 				isAttacking = true;
 			}
@@ -175,10 +183,6 @@ public class FirstPersonController : MonoBehaviour {
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag.Contains("Skill")) Instantiate(myPickupSound);
-
-		if (col.gameObject.tag == "Ring") {
-			print ("ring");
-		}
 
         switch (col.gameObject.tag)
         {
