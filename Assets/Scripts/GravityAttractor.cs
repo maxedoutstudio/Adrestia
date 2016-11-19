@@ -23,7 +23,7 @@ public class GravityAttractor : MonoBehaviour {
 
 		body.rotation = Quaternion.RotateTowards(body.rotation, Quaternion.FromToRotation(localUp, gravityUp) * body.rotation, Time.fixedTime * 60);
 
-		GameObject.FindGameObjectWithTag ("Boss").GetComponent<Transform> ().rotation = body.rotation * Quaternion.Euler(0, -180, 0);
+		//GameObject.FindGameObjectWithTag ("Boss").GetComponent<Transform> ().rotation = body.rotation * Quaternion.Euler(0, -180, 0);
 
 	}  
 }
