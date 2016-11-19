@@ -18,6 +18,7 @@ public class AudioController : MonoBehaviour {
         // Checks to play ambient music
         if (!source.isPlaying)
         {
+
             // Random selects ambient sound to play
             AudioClip sound = sounds[Random.Range(0, sounds.Length)];
 
