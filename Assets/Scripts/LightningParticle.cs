@@ -19,7 +19,7 @@ public class LightningParticle : MonoBehaviour
             Destroy(obj);
         }
 
-        if(obj.name != "Mage" && obj.name != "Planet")
+        if(obj.name != "Mage" && obj.tag != "Planet")
         {
             gameObject.GetComponent<ParticleSystem>().Clear();
         }
