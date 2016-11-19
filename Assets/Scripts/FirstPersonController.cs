@@ -83,7 +83,7 @@ public class FirstPersonController : MonoBehaviour {
 		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && grounded;
 
         // Look rotation; enable after backward mechanic is unlocked
-		if (put_GO.getCanBackward ()) {
+		if (put_GO.getCanLeftRight ()) {
 			transform.Rotate (Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
 			verticalLookRotation += Input.GetAxis ("Mouse Y") * mouseSensitivityY;
 			verticalLookRotation = Mathf.Clamp (verticalLookRotation, -30, 5);
