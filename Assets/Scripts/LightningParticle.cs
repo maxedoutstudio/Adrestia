@@ -24,7 +24,7 @@ public class LightningParticle : MonoBehaviour
 			print ("Hit boss");
 		}
 
-        if(obj.name != "Mage" && obj.name != "Planet")
+        if(obj.name != "Mage" && obj.tag != "Planet")
         {
             gameObject.GetComponent<ParticleSystem>().Clear();
         }
