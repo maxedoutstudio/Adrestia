@@ -72,7 +72,7 @@ public class FirstPersonController : MonoBehaviour {
             isWalking = false;
         }
 
-		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint();
+		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && grounded;
 
         // Look rotation; enable after backward mechanic is unlocked
 		if (put_GO.getCanBackward()) transform.Rotate(Vector3.up * Input.GetAxis("Mouse X") * mouseSensitivityX);
@@ -89,7 +89,7 @@ public class FirstPersonController : MonoBehaviour {
 		if (Input.GetButtonDown("Jump") && grounded && put_GO.getCanJump()) {
             rigidbody.AddForce(transform.up * jumpForce);
         }
-		if (Input.GetKey (KeyCode.Space) && !grounded && rigidbody.velocity.y < 0 && put_GO.getCanLevitate()) {
+		if (Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) {
 			rigidbody.AddForce (transform.up * levitateForce);
 		}
 
@@ -176,5 +176,10 @@ public class FirstPersonController : MonoBehaviour {
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
+		
+		if (col.gameObject.tag == "Planet" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap")
+		{
+			Destroy(GameObject.Find("Mage"));
+		}
     }
 }

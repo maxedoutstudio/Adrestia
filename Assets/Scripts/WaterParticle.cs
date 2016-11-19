@@ -6,6 +6,7 @@ public class WaterParticle : MonoBehaviour
     public AudioSource destructionSound;
     AudioSource myDestructionSound;
 
+
     void Start()
     {
         myDestructionSound = destructionSound.GetComponent<AudioSource>();
@@ -23,5 +24,19 @@ public class WaterParticle : MonoBehaviour
         {
             gameObject.GetComponent<ParticleSystem>().Clear();
         }
+
+		if(obj.tag == "WeakToWater")
+		{
+			Instantiate(myDestructionSound);
+			Destroy(obj);
+		}
+
+		if(obj.tag == "water_interaction")
+		{
+			Instantiate(myDestructionSound);
+			boiler_puzzle.boiler_water_time =45.00f;
+
+		}
+
     }
 }
