@@ -32,6 +32,7 @@ public class FirstPersonController : MonoBehaviour {
     bool isWalking;
     bool isRunning;
     bool isAttacking;
+	bool isCasting;
 
     // Reference vars
     Transform cameraTransform;
@@ -87,7 +88,8 @@ public class FirstPersonController : MonoBehaviour {
 		
 		// Jump
 		if (Input.GetButtonDown("Jump") && grounded && put_GO.getCanJump()) {
-            rigidbody.AddForce(transform.up * jumpForce);
+			grounded = false;
+			rigidbody.AddForce(transform.up * jumpForce);
         }
 		if (Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) {
 			rigidbody.AddForce (transform.up * levitateForce);
@@ -107,13 +109,17 @@ public class FirstPersonController : MonoBehaviour {
 		}
 
         // Mouse input
-        if (Input.GetMouseButtonDown(0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false)
-        {
-            //isWalking = false;
-            waiting = true;
-            isAttacking = true;
-            currentTime = Time.time + 0.4f;
-        }
+		if (Input.GetMouseButtonDown (0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false) {
+			//isWalking = false;
+			waiting = true;
+			if ((transform.position.x > -1.8 && transform.position.x < 1.8) && (transform.position.z > -31 && transform.position.z < -28)) {
+				isCasting = true;
+			} else {
+				isAttacking = true;
+			}
+
+			currentTime = Time.time + 0.4f;
+		}
 
         // Powerup selector checks
         if (Input.GetKeyDown("1") && put_GO.getCanFire())
@@ -145,11 +151,19 @@ public class FirstPersonController : MonoBehaviour {
             waiting = false;
         }
 
+		if (isCasting && Time.time > currentTime)
+		{
+			isCasting = false;
+			nextAttackDelay = Time.time + 0.5f;
+			waiting = false;
+		}
+
         // Animation toggles
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRunning", isRunning);
         animator.SetBool("isGrounded", grounded);
         animator.SetBool("isAttacking", isAttacking);
+		animator.SetBool ("isCasting", isCasting);
     }
 	
 	void FixedUpdate() {
@@ -161,6 +175,10 @@ public class FirstPersonController : MonoBehaviour {
     void OnCollisionEnter(Collision col)
     {
         if (col.gameObject.tag.Contains("Skill")) Instantiate(myPickupSound);
+
+		if (col.gameObject.tag == "Ring") {
+			print ("ring");
+		}
 
         switch (col.gameObject.tag)
         {
