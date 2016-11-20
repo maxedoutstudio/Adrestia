@@ -28,5 +28,12 @@ public class FireParticle : MonoBehaviour
         {
             gameObject.GetComponent<ParticleSystem>().Clear();
         }
+
+		if(obj.tag == "fire_interaction")
+		{
+			Instantiate(myDestructionSound);
+			boiler_puzzle.boiler_fire_time = 45.00f;
+
+		}
     }
 }
