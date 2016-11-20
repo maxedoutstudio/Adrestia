@@ -24,9 +24,16 @@ public class FireParticle : MonoBehaviour
 			print ("Hit boss");
 		}
        
-        if(obj.name != "Mage" && obj.name != "Planet")
+        if(obj.name != "Mage" && obj.tag != "Planet")
         {
             gameObject.GetComponent<ParticleSystem>().Clear();
         }
+
+		if(obj.tag == "fire_interaction")
+		{
+			Instantiate(myDestructionSound);
+			boiler_puzzle.boiler_fire_time = 45.00f;
+
+		}
     }
 }
