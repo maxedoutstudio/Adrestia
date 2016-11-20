@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class FirstPersonController : MonoBehaviour {
 	
 	// public vars
-	public float mouseSensitivityX = 0.2f;
-	public float mouseSensitivityY = 0.2f;
-	public float walkSpeed = 6;
-    public float runSpeed = 10;
-	public float jumpForce = 500;
+	public float mouseSensitivityX;
+    public float mouseSensitivityY;
+    public float walkSpeed;
+    public float runSpeed;
+    public float jumpForce;
 	public float levitateForce;
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
@@ -54,11 +54,21 @@ public class FirstPersonController : MonoBehaviour {
     float nextAttackDelay;
 	float verticalLookRotation;
 
+    float nextJumpDelay;
+
 	bool jumped = false;
+    bool jumping = false;
+    bool willLevitate = false;
 
     void Start()
     {
         myPickupSound = pickupSound.GetComponent<AudioSource>();
+        jumpForce = 400;
+        runSpeed = 10;
+        walkSpeed = 6;
+        mouseSensitivityY = 1f;
+        mouseSensitivityX = 1f;
+        levitateForce = 30f;
     }
 	
 	void Awake() {
@@ -74,13 +84,16 @@ public class FirstPersonController : MonoBehaviour {
 		
         // Make sure movement mechanics are unlocked
 		if (((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && put_GO.getCanLeftRight())
-			|| (Input.GetKey(KeyCode.S) && put_GO.getCanBackward()) || Input.GetKey(KeyCode.W)) {
+			|| (Input.GetKey(KeyCode.S) && put_GO.getCanBackward()) || Input.GetKey(KeyCode.W)) 
+        {
             isWalking = true;
-        } else {
+        } 
+        else 
+        {
             isWalking = false;
         }
 
-		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && grounded;
+		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && isWalking;
 
         // Look rotation; enable after backward mechanic is unlocked
 		if (put_GO.getCanLeftRight ()) {
@@ -99,25 +112,38 @@ public class FirstPersonController : MonoBehaviour {
         moveAmount = Vector3.SmoothDamp(moveAmount, targetMoveAmount, ref smoothMoveVelocity, .15f);
 
 		// Jump
-		if (Input.GetButtonDown("Jump") && grounded && put_GO.getCanJump()) {
-			rigidbody.AddForce(transform.up * jumpForce);
-        } else
-		if (Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) {
-			rigidbody.AddForce (transform.up * levitateForce);
-		}
+		if (Input.GetButtonDown("Jump") && grounded && put_GO.getCanJump()) 
+        {
+            grounded = false;
+            nextJumpDelay = Time.time + 0.25f;
+            willLevitate = false;
+            rigidbody.AddForce(transform.up * jumpForce);
+        } 
+        if (Input.GetButtonUp("Jump"))
+        {
+                willLevitate = true;
+        }
+        if (willLevitate == true && Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) 
+        {
+                rigidbody.AddForce (transform.up * levitateForce);
+        }
+
 
 		// Grounded check
 		Ray ray = new Ray(transform.position, -transform.up);
 		RaycastHit hit;
 
-		if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
-		{
-			grounded = true;
-		}
-		else
-		{
-			grounded = false;
-		}
+        if(Time.time > nextJumpDelay)
+        {
+    		if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
+            {
+                grounded = true;
+    		}
+    		else
+    		{
+    			grounded = false;
+    		}
+        }
 
         // Mouse input
 		if (Input.GetMouseButtonDown (0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false) {
@@ -208,6 +234,11 @@ public class FirstPersonController : MonoBehaviour {
 
 		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap")
 			SceneManager.LoadScene("FirePlanet", LoadSceneMode.Single);
+
+        if (col.gameObject.name == "PlanetWater")
+        {
+            SceneManager.LoadScene("Water");
+        }
 
 		if (col.gameObject.tag == "Switch")
 			Destroy (col.gameObject);

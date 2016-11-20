@@ -14,6 +14,12 @@ public class PowerupTracker : MonoBehaviour
 	public GameObject doubleJumpPowerUp;
 
     public bool unlockAll;
+    public bool tutorialDefault;
+    public bool waterDefault;
+    public bool fireDefault;
+    public bool lightningDefault;
+    public bool bossDefault;
+
 
 	private bool canBackward;
 	private bool canLeftRight;
@@ -27,15 +33,17 @@ public class PowerupTracker : MonoBehaviour
 
 	void Start()
 	{
-		canBackward = unlockAll;
-		canLeftRight = unlockAll;
-		canSprint = unlockAll;
-		canFire = unlockAll;
-		canLightning = unlockAll;
-		canWater = unlockAll;
-		canJump = unlockAll;
-		canDoubleJump = unlockAll;
-		canLevitate = unlockAll;
+		canBackward = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
+        canLeftRight = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
+        canSprint = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
+        canJump = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
+        canLevitate = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
+
+        canDoubleJump = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
+
+        canWater = unlockAll || fireDefault || lightningDefault || bossDefault;
+        canFire = unlockAll || lightningDefault || bossDefault;
+        canLightning = unlockAll || bossDefault;
 	}
 
 	public void aquireBackward()
