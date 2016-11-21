@@ -235,10 +235,10 @@ public class FirstPersonController : MonoBehaviour {
 		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap")
 			SceneManager.LoadScene("FirePlanet", LoadSceneMode.Single);
 
-        /*if (col.gameObject.name == "PlanetWater")
+        if (col.gameObject.name == "PlanetWater")
         {
             SceneManager.LoadScene("Water");
-        }*/
+        }
 
 		if (col.gameObject.tag == "Switch")
 			Destroy (col.gameObject);
