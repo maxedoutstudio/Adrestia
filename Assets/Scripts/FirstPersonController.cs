@@ -59,6 +59,8 @@ public class FirstPersonController : MonoBehaviour {
 	bool jumped = false;
     bool jumping = false;
     bool willLevitate = false;
+    bool cancelLevitate = false;
+    float levitationTime = 0;
 
     void Start()
     {
@@ -115,6 +117,7 @@ public class FirstPersonController : MonoBehaviour {
 		if (Input.GetButtonDown("Jump") && grounded && put_GO.getCanJump()) 
         {
             grounded = false;
+            cancelLevitate = false;
             nextJumpDelay = Time.time + 0.25f;
             willLevitate = false;
             rigidbody.AddForce(transform.up * jumpForce);
@@ -125,9 +128,16 @@ public class FirstPersonController : MonoBehaviour {
         }
         if (willLevitate == true && Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) 
         {
+            if(cancelLevitate == false)
+            {
+                cancelLevitate = true;
+                levitationTime = Time.time + 5f;
+            }
+            if(Time.time <= levitationTime)
+            {
                 rigidbody.AddForce (transform.up * levitateForce);
+            }
         }
-
 
 		// Grounded check
 		Ray ray = new Ray(transform.position, -transform.up);
