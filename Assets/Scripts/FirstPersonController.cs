@@ -21,6 +21,8 @@ public class FirstPersonController : MonoBehaviour {
     // audio stuff
     public AudioSource pickupSound;
     AudioSource myPickupSound;
+    public AudioSource levitateSound;
+    AudioSource myLevitateSound;
     public AudioClip fireSound;
     public AudioClip waterSound;
     public AudioClip lightningSound;
@@ -60,10 +62,12 @@ public class FirstPersonController : MonoBehaviour {
     bool jumping = false;
     bool willLevitate = false;
     bool cancelLevitate = false;
+    bool willLevitateAgain = true;
     float levitationTime = 0;
 
     void Start()
     {
+        myLevitateSound = levitateSound.GetComponent<AudioSource>();
         myPickupSound = pickupSound.GetComponent<AudioSource>();
         jumpForce = 400;
         runSpeed = 10;
@@ -120,23 +124,30 @@ public class FirstPersonController : MonoBehaviour {
             cancelLevitate = false;
             nextJumpDelay = Time.time + 0.25f;
             willLevitate = false;
+            willLevitateAgain = true;
             rigidbody.AddForce(transform.up * jumpForce);
         } 
         if (Input.GetButtonUp("Jump"))
         {
-                willLevitate = true;
+            willLevitate = true;
         }
-        if (willLevitate == true && Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) 
+        if (willLevitateAgain == true && willLevitate == true && Input.GetKey (KeyCode.Space) && !grounded && transform.InverseTransformDirection(rigidbody.velocity).y < 0 && put_GO.getCanLevitate()) 
         {
             if(cancelLevitate == false)
             {
                 cancelLevitate = true;
-                levitationTime = Time.time + 5f;
+                levitationTime = Time.time + 2f;
+                Instantiate(myLevitateSound);
             }
-            if(Time.time <= levitationTime)
+            if(Time.time < levitationTime)
             {
                 rigidbody.AddForce (transform.up * levitateForce);
             }
+        }
+        if(cancelLevitate == true && Input.GetButtonUp("Jump"))
+        {
+            Destroy(GameObject.Find("levitateSound(Clone)"));
+            willLevitateAgain = false;
         }
 
 		// Grounded check
@@ -148,6 +159,7 @@ public class FirstPersonController : MonoBehaviour {
     		if (Physics.Raycast(ray, out hit, 1 + .1f, groundedMask))
             {
                 grounded = true;
+                Destroy(GameObject.Find("levitateSound(Clone)"));
     		}
     		else
     		{
