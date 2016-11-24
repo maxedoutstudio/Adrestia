@@ -7,7 +7,7 @@ public class BridgeController : MonoBehaviour {
 	bool shrink = false;
 	bool countdown = false;
 
-	float time = 5f;
+	float time = 3f;
 
 	void Update() {
 		if (grow) {
@@ -34,6 +34,7 @@ public class BridgeController : MonoBehaviour {
 				shrink = false;
 				grow = false;
 				countdown = false;
+				GetComponent<GravityAttractor> ().enabled = true;
 			}
 		}
 	}
@@ -41,6 +42,7 @@ public class BridgeController : MonoBehaviour {
 	void OnCollisionEnter (Collision col) {
 		if (col.gameObject.tag == "Player" && !grow && !countdown && !shrink) {
 			grow = true;
+			GetComponent<GravityAttractor> ().enabled = false;
 		}
 	}
 }

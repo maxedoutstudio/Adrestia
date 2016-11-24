@@ -36,12 +36,31 @@ public class GravityAttractor : MonoBehaviour {
 	public float gravity = -9.8f;
 
 	public void Attract(Rigidbody body) {
-		Vector3 gravityUp = (body.position - transform.position).normalized;
-		Vector3 localUp = body.transform.up;
+		if (transform.tag == "Planet") {
+			Vector3 gravityUp = (body.position - transform.position).normalized;
+			Vector3 localUp = body.transform.up;
 
-		// Apply downwards gravity to body
-		body.AddForce(gravityUp * gravity);
-		// Allign bodies up axis with the centre of planet
-		body.rotation = Quaternion.FromToRotation(localUp, gravityUp) * body.rotation;
+			// Apply downwards gravity to body
+			body.AddForce (gravityUp * gravity);
+			// Allign bodies up axis with the centre of planet
+			body.rotation = Quaternion.FromToRotation (localUp, gravityUp) * body.rotation;
+		} else {
+			// Cast ray downwards to find surface normal
+			Ray ray = new Ray(body.transform.position, -body.transform.up);
+			RaycastHit hit;
+			Physics.Raycast (ray, out hit);
+
+			Vector3 gravityUp = hit.normal.normalized;
+			Vector3 localUp = body.transform.up;
+
+			body.AddForce(gravityUp * gravity);
+			body.rotation = Quaternion.RotateTowards(body.rotation, Quaternion.FromToRotation(localUp, gravityUp) * body.rotation, Time.fixedTime * 60);
+		}
+
+		// For boss level only; make boss face player
+		GameObject boss = GameObject.FindGameObjectWithTag ("Boss");
+		if (boss != null) {
+			boss.GetComponent<Transform> ().rotation = body.rotation * Quaternion.Euler(0, -180, 0);
+		}
 	}  
 }
