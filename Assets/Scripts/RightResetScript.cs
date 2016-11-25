@@ -46,19 +46,19 @@ public class RightResetScript : MonoBehaviour
 	
 	void Update () 
     {
-        if(Time.time > flashDelay && flashWhite == true && shouldFlash == true && canBeReset == true)
+        if(Time.time > flashDelay && flashWhite == true && shouldFlash == true && canBeReset == true && complete == false)
         {
             turnWhite();
             flashWhite = false;
             flashDelay = Time.time + 0.5f;
         }
-        if(Time.time > flashDelay && flashWhite == false && shouldFlash == true && canBeReset == true)
+        if(Time.time > flashDelay && flashWhite == false && shouldFlash == true && canBeReset == true && complete == false)
         {
             turnBlue();
             flashWhite = true;
             flashDelay = Time.time + 0.5f;
         }
-        if(canBeReset == false)
+        if(canBeReset == false && complete == false)
         {
             turnWhite();
         }

@@ -30,6 +30,7 @@ public class LeftPuzzleScript : MonoBehaviour
     PuzzleController myController;
 
     int achieved;
+    bool complete;
 
     void Start () 
     {
@@ -46,14 +47,16 @@ public class LeftPuzzleScript : MonoBehaviour
 
         myController = puzzleController.GetComponent<PuzzleController>();
         achieved = 0;
+        complete = false;
 	}
 
 	void Update ()
     {
-        if(achieved == 9)
+        if(achieved == 9 && complete == false)
         {
             myController.setPuzzleLeftComplete();
             resetScript.setComplete();
+            complete = true;
 
         }
 	}

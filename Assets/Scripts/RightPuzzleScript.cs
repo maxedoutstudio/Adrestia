@@ -22,6 +22,7 @@ public class RightPuzzleScript : MonoBehaviour
     int randomNumber;
     float randomGlowDelay;
     bool puzzleStart;
+    bool complete;
 
 	void Start () 
     {
@@ -35,17 +36,19 @@ public class RightPuzzleScript : MonoBehaviour
         randomNumber = 0;
         randomGlowDelay = Time.time + 3f;
         puzzleStart = false;
+        complete = false;
 	}
 	
 	void Update () 
     {
-        if(achieved == 5)
+        if(achieved == 5 && complete == false)
         {
             myController.setPuzzleRightComplete();
             turnAllGreen();
+            complete = true;
         }
 
-        if(puzzleStart == true)
+        if(puzzleStart == true && complete == false)
         {
             if(Time.time > randomGlowDelay)
             {
@@ -90,7 +93,6 @@ public class RightPuzzleScript : MonoBehaviour
     public void newRandom()
     {
         randomNumber = Random.Range(1, 5);
-        Debug.Log(randomNumber);
         allReset();
     }
 

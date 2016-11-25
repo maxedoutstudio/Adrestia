@@ -75,7 +75,7 @@ public class LeftResetScript : MonoBehaviour {
             flashDelay = Time.time + 0.5f;
         }
 
-        if(canBeReset == false)
+        if(canBeReset == false && complete == false)
         {
             turnWhite();
         }

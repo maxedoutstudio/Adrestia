@@ -58,12 +58,12 @@ public class FirstPersonController : MonoBehaviour {
 
     float nextJumpDelay;
 
-	bool jumped = false;
-    bool jumping = false;
-    bool willLevitate = false;
-    bool cancelLevitate = false;
-    bool willLevitateAgain = true;
-    float levitationTime = 0;
+	bool jumped;
+    bool jumping;
+    bool willLevitate;
+    bool cancelLevitate;
+    bool willLevitateAgain;
+    float levitationTime;
 
     void Start()
     {
@@ -74,7 +74,13 @@ public class FirstPersonController : MonoBehaviour {
         walkSpeed = 6;
         mouseSensitivityY = 1f;
         mouseSensitivityX = 1f;
-        levitateForce = 30f;
+        levitateForce = 25f;
+        levitationTime = 0f;
+        jumped = false;
+        jumping = false;
+        willLevitate = false;
+        cancelLevitate = false;
+        willLevitateAgain = true;
     }
 	
 	void Awake() {
@@ -136,7 +142,7 @@ public class FirstPersonController : MonoBehaviour {
             if(cancelLevitate == false)
             {
                 cancelLevitate = true;
-                levitationTime = Time.time + 2f;
+                levitationTime = Time.time + 1f;
                 Instantiate(myLevitateSound);
             }
             if(Time.time < levitationTime)

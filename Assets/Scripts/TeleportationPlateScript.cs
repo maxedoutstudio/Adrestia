@@ -18,7 +18,7 @@ public class TeleportationPlateScript : MonoBehaviour
     void Start()
     {
         myRend = GetComponent<Renderer>();
-        flashDelay = Time.time + 1f;
+        flashDelay = Time.time + 0.5f;
         flashWhite = true;
         shouldFlash = true;
     }
@@ -29,13 +29,13 @@ public class TeleportationPlateScript : MonoBehaviour
         {
             turnWhite();
             flashWhite = false;
-            flashDelay = Time.time + 1f;
+            flashDelay = Time.time + 0.5f;
         }
         if(Time.time > flashDelay && flashWhite == false && shouldFlash == true)
         {
             turnGreen();
             flashWhite = true;
-            flashDelay = Time.time + 1f;
+            flashDelay = Time.time + 0.5f;
         }
     }
     void turnGreen()

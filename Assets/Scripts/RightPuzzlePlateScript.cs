@@ -29,7 +29,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
 	
 	void Update () 
     {
-        if(glowing == true && Time.time > countDownTimer)
+        if(glowing == true && Time.time > countDownTimer && complete == false)
         {
             myController.allFailed();
             failed = true;
