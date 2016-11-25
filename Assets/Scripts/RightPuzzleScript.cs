@@ -20,6 +20,8 @@ public class RightPuzzleScript : MonoBehaviour
 
     int achieved;
     int randomNumber;
+    float randomGlowDelay;
+    bool puzzleStart;
 
 	void Start () 
     {
@@ -31,6 +33,8 @@ public class RightPuzzleScript : MonoBehaviour
         myController = puzzleController.GetComponent<PuzzleController>();
         achieved = 0;
         randomNumber = 0;
+        randomGlowDelay = Time.time + 3f;
+        puzzleStart = false;
 	}
 	
 	void Update () 
@@ -38,23 +42,35 @@ public class RightPuzzleScript : MonoBehaviour
         if(achieved == 5)
         {
             myController.setPuzzleRightComplete();
+            turnAllGreen();
         }
 
-        if(randomNumber == 1)
+        if(puzzleStart == true)
         {
-            plateUpScript.turnBlue();
-        }
-        if(randomNumber == 2)
-        {
-            plateDownScript.turnBlue();
-        }
-        if(randomNumber == 3)
-        {
-            plateLeftScript.turnBlue();
-        }
-        if(randomNumber == 4)
-        {
-            plateRightScript.turnBlue();
+            if(Time.time > randomGlowDelay)
+            {
+                newRandom();
+                if(randomNumber == 1)
+                {
+                    plateUpScript.turnBlue();
+                    randomGlowDelay = Time.time + 3f;
+                }
+                if(randomNumber == 2)
+                {
+                    plateDownScript.turnBlue();
+                    randomGlowDelay = Time.time + 3f;
+                }
+                if(randomNumber == 3)
+                {
+                    plateLeftScript.turnBlue();
+                    randomGlowDelay = Time.time + 3f;
+                }
+                if(randomNumber == 4)
+                {
+                    plateRightScript.turnBlue();
+                    randomGlowDelay = Time.time + 3f;
+                }
+            }
         }
 	}
 
@@ -73,7 +89,9 @@ public class RightPuzzleScript : MonoBehaviour
 
     public void newRandom()
     {
-
+        randomNumber = Random.Range(1, 5);
+        Debug.Log(randomNumber);
+        allReset();
     }
 
     public void turnAllGreen()
@@ -92,13 +110,25 @@ public class RightPuzzleScript : MonoBehaviour
         plateLeftScript.turnRed();
         plateRightScript.turnRed();
         rightResetScript.setCanBeReset();
+        puzzleStart = false;
     }
 
     public void allReset()
     {
+        puzzleStart = true;
         plateUpScript.turnWhite();
         plateDownScript.turnWhite();
         plateLeftScript.turnWhite();
         plateRightScript.turnWhite();
+    }
+
+    public void setPuzzleStart()
+    {
+        puzzleStart = true;
+    }
+
+    public void setDoNotStart()
+    {
+        puzzleStart = false;
     }
 }

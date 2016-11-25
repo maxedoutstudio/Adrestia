@@ -15,6 +15,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
     bool glowing;
     bool complete;
     float countDownTimer;
+    bool failed;
 
     void Start () 
     {
@@ -23,6 +24,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
         glowing = false;
         complete = false;
         countDownTimer = 0f;
+        failed = false;
 	}
 	
 	void Update () 
@@ -30,6 +32,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
         if(glowing == true && Time.time > countDownTimer)
         {
             myController.allFailed();
+            failed = true;
         }
 	}
 
@@ -43,6 +46,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
     {
         myRend.material = white;
         glowing = false;
+        failed = false;
     }
 
     public void turnRed()
@@ -55,12 +59,12 @@ public class RightPuzzlePlateScript : MonoBehaviour {
     {
         myRend.material = blue;
         glowing = true;
-        countDownTimer = Time.time + 2f;
+        countDownTimer = Time.time + 2.5f;
     }
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.tag == "Player" && glowing == true && complete == false)
+        if(col.gameObject.tag == "Player" && glowing == true && complete == false && failed == false)
         {
             turnWhite();
             myController.incrementAchieved();

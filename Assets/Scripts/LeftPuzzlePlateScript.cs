@@ -100,6 +100,7 @@ public class LeftPuzzlePlateScript : MonoBehaviour
         }
         turnWhite();
         failed = false;
+        complete = false;
     }
 
     public void turnGreen()

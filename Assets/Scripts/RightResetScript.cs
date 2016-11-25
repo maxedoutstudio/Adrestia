@@ -37,11 +37,11 @@ public class RightResetScript : MonoBehaviour
         plateRightScript = plateRight.GetComponent<RightPuzzlePlateScript>();
         myRend = GetComponent<Renderer>();
         myController = puzzleController.GetComponent<RightPuzzleScript>();
-        flashDelay = Time.time + 1f;
+        flashDelay = Time.time + 0.5f;
         flashWhite = true;
         shouldFlash = true;
         canBeReset = true;
-        complete == false;
+        complete = false;
 	}
 	
 	void Update () 
@@ -50,13 +50,13 @@ public class RightResetScript : MonoBehaviour
         {
             turnWhite();
             flashWhite = false;
-            flashDelay = Time.time + 1f;
+            flashDelay = Time.time + 0.5f;
         }
         if(Time.time > flashDelay && flashWhite == false && shouldFlash == true && canBeReset == true)
         {
             turnBlue();
             flashWhite = true;
-            flashDelay = Time.time + 1f;
+            flashDelay = Time.time + 0.5f;
         }
         if(canBeReset == false)
         {
@@ -92,10 +92,11 @@ public class RightResetScript : MonoBehaviour
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.tag == "Player")
+        if(col.gameObject.tag == "Player" && canBeReset == true && complete == false)
         {
             myController.allReset();
             canBeReset = false;
+            myController.resetAchieved();
         }
     }
 
