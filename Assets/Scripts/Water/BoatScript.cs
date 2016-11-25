@@ -11,12 +11,15 @@ public class BoatScript : MonoBehaviour
 
     Transform otherBoatTransform;
 
+    public float boatSpeed;
+
     void Start () 
     {
         otherBoatTransform = otherBoat.GetComponent<Transform>();
         startMovement = false;
         moveForward = true;
         moveBackward = false;
+        boatSpeed = 0.15f;
 	}
 	
 	void Update () 
@@ -25,13 +28,13 @@ public class BoatScript : MonoBehaviour
         {
             if(moveForward == true)
             {
-                transform.Translate(Vector3.forward * 0.1f);
-                otherBoatTransform.Translate(Vector3.forward * 0.1f);
+                transform.Translate(Vector3.forward * boatSpeed);
+                otherBoatTransform.Translate(Vector3.forward * boatSpeed);
             }
             if(moveBackward == true)
             {
-                transform.Translate(Vector3.back * 0.1f);
-                otherBoatTransform.Translate(Vector3.back * 0.1f);
+                transform.Translate(Vector3.back * boatSpeed);
+                otherBoatTransform.Translate(Vector3.back * boatSpeed);
             }
         }
 	}

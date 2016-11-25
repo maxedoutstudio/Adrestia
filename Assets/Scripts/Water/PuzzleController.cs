@@ -15,12 +15,12 @@ public class PuzzleController : MonoBehaviour
     Transform cliff2Transform;
     Transform cliff3Transform;
 	
-    bool puzzleLeftComplete;
-    bool puzzleRightComplete;
+    public bool puzzleLeftComplete;
+    public bool puzzleRightComplete;
 
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
     }
 
     void Start () 
