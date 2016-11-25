@@ -7,17 +7,27 @@ public class PuzzleController : MonoBehaviour
     public GameObject cliff2;
     public GameObject cliff3;
 
+    public GameObject leftPuzzleController;
+
+    LeftPuzzleScript leftScript;
+
     Transform cliff1Transform;
     Transform cliff2Transform;
     Transform cliff3Transform;
 	
-    bool puzzle1Complete;
-    bool puzzle2Complete;
+    bool puzzleLeftComplete;
+    bool puzzleRightComplete;
+
+    void Awake()
+    {
+        DontDestroyOnLoad(this);
+    }
 
     void Start () 
     {
-        puzzle1Complete = true;
-        puzzle2Complete = true;
+        leftScript = leftPuzzleController.GetComponent<LeftPuzzleScript>();
+        puzzleLeftComplete = false;
+        puzzleRightComplete = false;
         cliff1Transform = cliff1.GetComponent<Transform>();
         cliff2Transform = cliff2.GetComponent<Transform>();
         cliff3Transform = cliff3.GetComponent<Transform>();
@@ -25,7 +35,7 @@ public class PuzzleController : MonoBehaviour
 
 	void Update () 
     {
-        if(puzzle1Complete == true && puzzle2Complete == true)
+        if(puzzleLeftComplete == true && puzzleRightComplete == true)
         {
             Destroy(cliff1);
             Destroy(cliff2);
@@ -33,13 +43,13 @@ public class PuzzleController : MonoBehaviour
         }
 	}
 
-    public void setPuzzle1Complete()
+    public void setPuzzleLeftComplete()
     {
-        puzzle1Complete = true;
+        puzzleLeftComplete = true;
     }
 
-    public void setPuzzle2Complete()
+    public void setPuzzleRightComplete()
     {
-        puzzle2Complete = true;
+        puzzleRightComplete = true;
     }
 }

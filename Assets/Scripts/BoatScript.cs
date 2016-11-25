@@ -5,38 +5,68 @@ public class BoatScript : MonoBehaviour
 {
     public GameObject otherBoat;
 
-    bool moveBoats;
-    bool stopBoats;
+    bool startMovement;
+    bool moveForward;
+    bool moveBackward;
 
     Transform otherBoatTransform;
 
     void Start () 
     {
         otherBoatTransform = otherBoat.GetComponent<Transform>();
-        moveBoats = false;
-        stopBoats = false;
+        startMovement = false;
+        moveForward = true;
+        moveBackward = false;
 	}
 	
 	void Update () 
     {
-        if(moveBoats == true)
+        if(startMovement == true)
         {
-            transform.Translate(Vector3.forward * 0.1f);
-            otherBoatTransform.Translate(Vector3.forward * 0.1f);
-
+            if(moveForward == true)
+            {
+                transform.Translate(Vector3.forward * 0.1f);
+                otherBoatTransform.Translate(Vector3.forward * 0.1f);
+            }
+            if(moveBackward == true)
+            {
+                transform.Translate(Vector3.back * 0.1f);
+                otherBoatTransform.Translate(Vector3.back * 0.1f);
+            }
         }
 	}
 
     void OnCollisionEnter(Collision col)
     {
-        if(col.gameObject.name == "Mage")
+        if(col.gameObject.tag == "Player")
         {
-            moveBoats = true;
+            col.transform.SetParent(transform);
+            startMovement = true;
         }
 
         if(col.gameObject.tag == "Wall")
         {
-            moveBoats = false;
+            moveForward = false;
+            moveBackward = true;
         }
+
+        if(col.gameObject.tag == "Dock")
+        {
+            moveBackward = false;
+            moveForward = true;
+        }
+    }
+
+    void OnCollisionExit(Collision col)
+    {
+        if(col.gameObject.tag == "Player")
+        {
+            col.transform.SetParent(null);
+        }
+    }
+
+    public void Move()
+    {
+        startMovement = true;
     }
 }
