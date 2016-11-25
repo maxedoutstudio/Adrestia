@@ -27,9 +27,14 @@ public class LeftPuzzlePlateScript : MonoBehaviour
     bool failed;
     bool moving;
     bool complete;
+
+    public AudioSource correctSound;
+    AudioSource myCorrectSound;
 	
     void Start () 
     {
+        myCorrectSound = correctSound.GetComponent<AudioSource>();
+
         resetScript = resetPlate.GetComponent<LeftResetScript>();
         myRend = GetComponent<Renderer>();
         myGravity = GetComponent<GravityBody>();
@@ -154,6 +159,8 @@ public class LeftPuzzlePlateScript : MonoBehaviour
             turnGreen();
             myController.incrementAchieved();
             collided = true;
+
+            Instantiate(myCorrectSound);
         }
     }
 }

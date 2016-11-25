@@ -15,8 +15,13 @@ public class TeleportationPlateScript : MonoBehaviour
     bool flashWhite;
     bool shouldFlash;
 
+    public AudioSource warpSound;
+    AudioSource myWarpSound;
+
     void Start()
     {
+        myWarpSound = warpSound.GetComponent<AudioSource>();
+
         myRend = GetComponent<Renderer>();
         flashDelay = Time.time + 0.5f;
         flashWhite = true;
@@ -62,6 +67,7 @@ public class TeleportationPlateScript : MonoBehaviour
     {
         if (col.gameObject.name == "Mage")
         {
+            Instantiate(myWarpSound);
             SceneManager.LoadScene("FirePlanet");
         }
     }

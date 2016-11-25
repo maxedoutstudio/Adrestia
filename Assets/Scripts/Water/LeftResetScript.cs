@@ -39,8 +39,13 @@ public class LeftResetScript : MonoBehaviour {
     bool complete;
     bool canBeReset;
 
+    public AudioSource puzzleStartSound;
+    AudioSource myPuzzleStartSound;
+
     void Start () 
     {
+        myPuzzleStartSound = puzzleStartSound.GetComponent<AudioSource>();
+
         plate1Script = plate1.GetComponent<LeftPuzzlePlateScript>();
         plate2Script = plate2.GetComponent<LeftPuzzlePlateScript>();
         plate3Script = plate3.GetComponent<LeftPuzzlePlateScript>();
@@ -121,6 +126,7 @@ public class LeftResetScript : MonoBehaviour {
     {
         if(col.gameObject.tag == "Player" && complete == false && canBeReset == true)
         {
+            Instantiate(myPuzzleStartSound);
             myController.resetAchieved();
             canBeReset = false;
         }

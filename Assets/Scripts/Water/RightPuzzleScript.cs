@@ -18,14 +18,23 @@ public class RightPuzzleScript : MonoBehaviour
 
     PuzzleController myController;
 
+    public AudioSource puzzleCompleteSound;
+    AudioSource myPuzzleCompleteSound;
+
     int achieved;
     int randomNumber;
     float randomGlowDelay;
     bool puzzleStart;
     bool complete;
 
+    public AudioSource incorrectSound;
+    AudioSource myIncorrectSound;
+
 	void Start () 
     {
+        myIncorrectSound = incorrectSound.GetComponent<AudioSource>();
+        myPuzzleCompleteSound = puzzleCompleteSound.GetComponent<AudioSource>();
+
         rightResetScript = rightReset.GetComponent<RightResetScript>();
         plateUpScript = plateUp.GetComponent<RightPuzzlePlateScript>();
         plateDownScript = plateDown.GetComponent<RightPuzzlePlateScript>();
@@ -46,6 +55,7 @@ public class RightPuzzleScript : MonoBehaviour
             myController.setPuzzleRightComplete();
             turnAllGreen();
             complete = true;
+            Instantiate(myPuzzleCompleteSound);
         }
 
         if(puzzleStart == true && complete == false)
@@ -113,6 +123,7 @@ public class RightPuzzleScript : MonoBehaviour
         plateRightScript.turnRed();
         rightResetScript.setCanBeReset();
         puzzleStart = false;
+        Instantiate(myIncorrectSound);
     }
 
     public void allReset()

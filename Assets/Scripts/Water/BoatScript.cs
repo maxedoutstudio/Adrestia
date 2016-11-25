@@ -13,8 +13,13 @@ public class BoatScript : MonoBehaviour
 
     public float boatSpeed;
 
+    public AudioSource puzzleStartSound;
+    AudioSource myPuzzleStartSound;
+
     void Start () 
     {
+        myPuzzleStartSound = puzzleStartSound.GetComponent<AudioSource>();
+
         otherBoatTransform = otherBoat.GetComponent<Transform>();
         startMovement = false;
         moveForward = true;
@@ -71,5 +76,6 @@ public class BoatScript : MonoBehaviour
     public void Move()
     {
         startMovement = true;
+        Instantiate(myPuzzleStartSound);
     }
 }

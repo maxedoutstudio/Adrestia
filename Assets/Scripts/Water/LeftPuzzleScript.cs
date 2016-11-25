@@ -29,11 +29,20 @@ public class LeftPuzzleScript : MonoBehaviour
     public GameObject puzzleController;
     PuzzleController myController;
 
+    public AudioSource puzzleCompleteSound;
+    AudioSource myPuzzleCompleteSound;
+
     int achieved;
     bool complete;
 
+    public AudioSource incorrectSound;
+    AudioSource myIncorrectSound;
+
     void Start () 
     {
+        myIncorrectSound = incorrectSound.GetComponent<AudioSource>();
+        myPuzzleCompleteSound = puzzleCompleteSound.GetComponent<AudioSource>();
+
         resetScript = resetPlate.GetComponent<LeftResetScript>();
         plate1Script = plate1.GetComponent<LeftPuzzlePlateScript>();
         plate2Script = plate2.GetComponent<LeftPuzzlePlateScript>();
@@ -57,7 +66,7 @@ public class LeftPuzzleScript : MonoBehaviour
             myController.setPuzzleLeftComplete();
             resetScript.setComplete();
             complete = true;
-
+            Instantiate(myPuzzleCompleteSound);
         }
 	}
 
@@ -95,6 +104,8 @@ public class LeftPuzzleScript : MonoBehaviour
         plate7Script.turnRed();
         plate8Script.turnRed();
         plate9Script.turnRed();
+
+        Instantiate(myIncorrectSound);
     }
 
     public void turnAllGreen()

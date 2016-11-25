@@ -17,8 +17,13 @@ public class RightPuzzlePlateScript : MonoBehaviour {
     float countDownTimer;
     bool failed;
 
+    public AudioSource correctSound;
+    AudioSource myCorrectSound;
+
     void Start () 
     {
+        myCorrectSound = correctSound.GetComponent<AudioSource>();
+
         myRend = GetComponent<Renderer>();
         myController = puzzleController.GetComponent<RightPuzzleScript>();
         glowing = false;
@@ -68,6 +73,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
         {
             turnWhite();
             myController.incrementAchieved();
+            Instantiate(myCorrectSound);
         }
     }
 }
