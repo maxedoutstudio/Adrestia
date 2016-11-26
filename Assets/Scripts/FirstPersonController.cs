@@ -205,14 +205,14 @@ public class FirstPersonController : MonoBehaviour {
 		}
 
         // Powerup selector checks
-        if (Input.GetKeyDown("1") && put_GO.getCanFire())
-        {
-            Debug.Log("Fire selected");
-            powerUp = 1;
-        }
-        else if (Input.GetKeyDown("2") && put_GO.getCanWater())
+        if (Input.GetKeyDown("1") && put_GO.getCanWater())
         {
             Debug.Log("Water selected");
+            powerUp = 1;
+        }
+        else if (Input.GetKeyDown("2") && put_GO.getCanFire())
+        {
+            Debug.Log("Fire selected");
             powerUp = 2;
         }
         else if (Input.GetKeyDown("3") && put_GO.getCanLightning())
@@ -225,8 +225,8 @@ public class FirstPersonController : MonoBehaviour {
         {
             switch (powerUp)
             {
-                case 1: myParticlesFire.Play(); AudioSource.PlayClipAtPoint(fireSound, transform.position); break;
-                case 2: myParticlesWater.Play(); AudioSource.PlayClipAtPoint(waterSound, transform.position); break;
+                case 1: myParticlesWater.Play(); AudioSource.PlayClipAtPoint(waterSound, transform.position); break;
+                case 2: myParticlesFire.Play(); AudioSource.PlayClipAtPoint(fireSound, transform.position); break;
                 case 3: myParticlesLightning.Play(); AudioSource.PlayClipAtPoint(lightningSound, transform.position); break;
             }
             isAttacking = false;
@@ -268,8 +268,8 @@ public class FirstPersonController : MonoBehaviour {
             case "JumpSkill": put_GO.aquireJump(); break;
             case "LevitateSkill": put_GO.aquireLevitate(); break;
 
-            case "FireSkill": put_GO.aquireFire(); powerUp = 1; break;
-            case "WaterSkill": put_GO.aquireWater(); powerUp = 2; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "FireSkill": put_GO.aquireFire(); powerUp = 2; break;
+            case "WaterSkill": put_GO.aquireWater(); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
             case "LightningSkill": put_GO.aquireLightning(); powerUp = 3; break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
