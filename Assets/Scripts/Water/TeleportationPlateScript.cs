@@ -39,7 +39,7 @@ public class TeleportationPlateScript : MonoBehaviour
         //    setShouldFlash();
         //}
 
-        if(Time.time > flashDelay && flashWhite == true && shouldFlash == true)
+        /*if(Time.time > flashDelay && flashWhite == true && shouldFlash == true)
         {
             turnGreen();
             flashWhite = false;
@@ -50,7 +50,7 @@ public class TeleportationPlateScript : MonoBehaviour
             turnWhite();
             flashWhite = true;
             flashDelay = Time.time + 0.5f;
-        }
+        }*/
     }
     void turnGreen()
     {
@@ -78,10 +78,11 @@ public class TeleportationPlateScript : MonoBehaviour
         {
             shouldFlash = true;
             Instantiate(myWarpSound);
+            gameObject.GetComponent<ParticleSystem>().Play();
         }
     }
         
-    void OnCollisionEnter(Collision col)
+    void OnTriggerEnter(Collider col)
     {
         if (col.gameObject.name == "Mage" && shouldFlash == true)
         {
