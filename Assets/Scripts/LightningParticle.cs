@@ -20,7 +20,7 @@ public class LightningParticle : MonoBehaviour
         }
 
 		if (obj.tag == "Boss") {
-			obj.GetComponent<BossControl> ().isHit = true;
+			obj.GetComponent<BossControl> ().Hit ();
 			print ("Hit boss");
 		}
 
