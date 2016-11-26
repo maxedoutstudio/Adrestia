@@ -191,10 +191,14 @@ public class FirstPersonController : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false) {
 			//isWalking = false;
 			waiting = true;
-			isCasting = GetComponent<SpellController> ().checkInRange (powerUp);
+
+			if (GetComponent<SpellController>() != null)
+				isCasting = GetComponent<SpellController> ().checkInRange (powerUp);
 			isAttacking = !isCasting;
 			if (isCasting) {
-				GetComponent<GravityBody> ().planet.GetComponentInChildren<ParticleSystem> ().Play ();
+				ParticleSystem[] ps = GetComponent<GravityBody> ().planet.GetComponentsInChildren<ParticleSystem> ();
+				ps [0].Play ();
+				ps [1].Stop ();
 			}
 
 			currentTime = Time.time + 0.4f;
