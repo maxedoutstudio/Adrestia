@@ -65,6 +65,11 @@ public class FirstPersonController : MonoBehaviour {
     bool willLevitateAgain;
     float levitationTime;
 
+    //Cam angle stuff
+    float initCamAngle;
+    bool mouseYEnabled;
+    float initMouseYAngle;
+
     void Start()
     {
         myLevitateSound = levitateSound.GetComponent<AudioSource>();
@@ -81,6 +86,8 @@ public class FirstPersonController : MonoBehaviour {
         willLevitate = false;
         cancelLevitate = false;
         willLevitateAgain = true;
+        initCamAngle = -cameraTransform.localEulerAngles.x;
+        mouseYEnabled = false;
     }
 	
 	void Awake() {
@@ -107,12 +114,20 @@ public class FirstPersonController : MonoBehaviour {
 
 		isRunning = Input.GetKey(KeyCode.LeftShift) && put_GO.getCanSprint() && isWalking;
 
-        // Look rotation; enable after backward mechanic is unlocked
+        // Look rotation; enable after left-right mechanic is unlocked
 		if (put_GO.getCanLeftRight ()) {
+            if (!mouseYEnabled)
+            {
+                verticalLookRotation = initCamAngle;
+                initMouseYAngle = Input.GetAxis("Mouse Y") * mouseSensitivityY;
+                mouseYEnabled = true;
+            }
 			transform.Rotate (Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
-			verticalLookRotation += Input.GetAxis ("Mouse Y") * mouseSensitivityY;
-			verticalLookRotation = Mathf.Clamp (verticalLookRotation, -30, 5);
-			cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
+
+            float diffVerticaLookRotation = Input.GetAxis ("Mouse Y") * mouseSensitivityY - initMouseYAngle;
+            verticalLookRotation += diffVerticaLookRotation;
+            verticalLookRotation = Mathf.Clamp(verticalLookRotation, -40, 5);
+            cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
 		}
 
 		// Calculate movement:
