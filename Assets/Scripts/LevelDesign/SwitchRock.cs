@@ -6,17 +6,22 @@ public class SwitchRock : MonoBehaviour {
 	public GameObject rock;
 	public AudioSource destructionSound;
 	AudioSource myDestructionSound;
+	bool rockIsGone;
 
 	void Start () {
 	
+		rockIsGone = false;
 		myDestructionSound = destructionSound.GetComponent<AudioSource>();
 	}
 
 	void OnCollisionEnter(Collision col)
 	{
 		if (col.gameObject.tag == "Player") {
-			Instantiate (myDestructionSound);
-			Destroy (rock);
+			if (!rockIsGone) {
+				Instantiate (myDestructionSound);
+				Destroy (rock);
+				rockIsGone = true;
+			}
 		}
 	}
 }

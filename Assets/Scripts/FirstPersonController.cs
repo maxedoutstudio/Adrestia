@@ -285,15 +285,5 @@ public class FirstPersonController : MonoBehaviour {
             transform.position = new Vector3(11.08f, 125.87f, -6.01f);
             transform.rotation = new Quaternion(0f,0f,0f,0f);
         }
-
-		if (col.gameObject.tag == "Switch")
-			Destroy (col.gameObject);
-
-		//if (col.gameObject.tag == "MovingPlatform")
-    }
-
-	/*void OnCollisionExit(Collision col)
-	{
-		if (col.gameObject.tag == "MovingPlatform")
-	}*/
+	}
 }
