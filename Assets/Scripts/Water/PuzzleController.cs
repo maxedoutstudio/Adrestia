@@ -6,6 +6,8 @@ public class PuzzleController : MonoBehaviour
     public GameObject cliff1;
     public GameObject cliff2;
     public GameObject cliff3;
+    public AudioSource rumbleSound;
+    AudioSource myRumbleSound;
 
     public GameObject leftPuzzleController;
 
@@ -17,29 +19,40 @@ public class PuzzleController : MonoBehaviour
 	
     public bool puzzleLeftComplete;
     public bool puzzleRightComplete;
-
-    void Awake()
-    {
-        //DontDestroyOnLoad(this);
-    }
+    bool passageOpen;
+    bool destroyTheCliffs;
 
     void Start () 
     {
+        destroyTheCliffs = false;
+        myRumbleSound = rumbleSound.GetComponent<AudioSource>();
         leftScript = leftPuzzleController.GetComponent<LeftPuzzleScript>();
         puzzleLeftComplete = false;
         puzzleRightComplete = false;
         cliff1Transform = cliff1.GetComponent<Transform>();
         cliff2Transform = cliff2.GetComponent<Transform>();
         cliff3Transform = cliff3.GetComponent<Transform>();
+        passageOpen = false;
 	}
 
 	void Update () 
     {
-        if(puzzleLeftComplete == true && puzzleRightComplete == true)
+        if(puzzleLeftComplete == true && puzzleRightComplete == true && passageOpen == false)
         {
-            Destroy(cliff1);
-            Destroy(cliff2);
-            Destroy(cliff3);
+            Destroy(cliff1, 9f);
+            Destroy(cliff2, 9f);
+            Destroy(cliff3, 9f);
+
+            destroyTheCliffs = true;
+            passageOpen = true;
+            Instantiate(myRumbleSound);
+        }
+
+        if(destroyTheCliffs == true)
+        {
+            cliff1Transform.Translate(Vector3.down * 0.15f);
+            cliff2Transform.Translate(Vector3.down * 0.15f);
+            cliff3Transform.Translate(Vector3.down * 0.15f);
         }
 	}
 

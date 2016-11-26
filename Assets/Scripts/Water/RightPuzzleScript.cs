@@ -18,14 +18,27 @@ public class RightPuzzleScript : MonoBehaviour
 
     PuzzleController myController;
 
+    public AudioSource puzzleCompleteSound;
+    AudioSource myPuzzleCompleteSound;
+
+    public AudioSource spawnSound;
+    AudioSource mySpawnSound;
+
     int achieved;
     int randomNumber;
     float randomGlowDelay;
     bool puzzleStart;
     bool complete;
 
+    public AudioSource incorrectSound;
+    AudioSource myIncorrectSound;
+
 	void Start () 
     {
+        mySpawnSound = spawnSound.GetComponent<AudioSource>();
+        myIncorrectSound = incorrectSound.GetComponent<AudioSource>();
+        myPuzzleCompleteSound = puzzleCompleteSound.GetComponent<AudioSource>();
+
         rightResetScript = rightReset.GetComponent<RightResetScript>();
         plateUpScript = plateUp.GetComponent<RightPuzzlePlateScript>();
         plateDownScript = plateDown.GetComponent<RightPuzzlePlateScript>();
@@ -34,7 +47,7 @@ public class RightPuzzleScript : MonoBehaviour
         myController = puzzleController.GetComponent<PuzzleController>();
         achieved = 0;
         randomNumber = 0;
-        randomGlowDelay = Time.time + 3f;
+        randomGlowDelay = Time.time + 3.5f;
         puzzleStart = false;
         complete = false;
 	}
@@ -46,6 +59,7 @@ public class RightPuzzleScript : MonoBehaviour
             myController.setPuzzleRightComplete();
             turnAllGreen();
             complete = true;
+            Instantiate(myPuzzleCompleteSound);
         }
 
         if(puzzleStart == true && complete == false)
@@ -56,22 +70,26 @@ public class RightPuzzleScript : MonoBehaviour
                 if(randomNumber == 1)
                 {
                     plateUpScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
                 if(randomNumber == 2)
                 {
                     plateDownScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
                 if(randomNumber == 3)
                 {
                     plateLeftScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
                 if(randomNumber == 4)
                 {
                     plateRightScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
             }
         }
@@ -113,6 +131,7 @@ public class RightPuzzleScript : MonoBehaviour
         plateRightScript.turnRed();
         rightResetScript.setCanBeReset();
         puzzleStart = false;
+        Instantiate(myIncorrectSound);
     }
 
     public void allReset()

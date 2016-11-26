@@ -13,8 +13,13 @@ public class BoatScript : MonoBehaviour
 
     public float boatSpeed;
 
+    public AudioSource puzzleStartSound;
+    AudioSource myPuzzleStartSound;
+
     void Start () 
     {
+        myPuzzleStartSound = puzzleStartSound.GetComponent<AudioSource>();
+
         otherBoatTransform = otherBoat.GetComponent<Transform>();
         startMovement = false;
         moveForward = true;
@@ -44,7 +49,7 @@ public class BoatScript : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             col.transform.SetParent(transform);
-            startMovement = true;
+            Move();
         }
 
         if(col.gameObject.tag == "Wall")
@@ -70,6 +75,10 @@ public class BoatScript : MonoBehaviour
 
     public void Move()
     {
-        startMovement = true;
+        if(startMovement == false)
+        {
+            startMovement = true;
+            Instantiate(myPuzzleStartSound);
+        }
     }
 }

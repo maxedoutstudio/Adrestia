@@ -8,15 +8,7 @@ public class CameraScript : MonoBehaviour {
 
 	public float rotationSpeed = 2f;
 	public Transform player;
-	// Use this for initialization
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
 
-	}
 	void LateUpdate () {
 		transform.position = player.position;
 		transform.Rotate (0f, Input.GetAxis ("Horizontal") * Time.deltaTime * rotationSpeed, 0f);

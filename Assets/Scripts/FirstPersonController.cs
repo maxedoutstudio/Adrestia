@@ -15,6 +15,9 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+    public AudioSource deathSound;
+    AudioSource myDeathSound;
+
 	public ParticleSystem planet01;
 	public ParticleSystem planet02;
 
@@ -72,6 +75,7 @@ public class FirstPersonController : MonoBehaviour {
 
     void Start()
     {
+        myDeathSound = deathSound.GetComponent<AudioSource>();
         myLevitateSound = levitateSound.GetComponent<AudioSource>();
         myPickupSound = pickupSound.GetComponent<AudioSource>();
         jumpForce = 400;
@@ -123,7 +127,6 @@ public class FirstPersonController : MonoBehaviour {
                 mouseYEnabled = true;
             }
 			transform.Rotate (Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
-
             float diffVerticaLookRotation = Input.GetAxis ("Mouse Y") * mouseSensitivityY - initMouseYAngle;
             verticalLookRotation += diffVerticaLookRotation;
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -40, 5);
@@ -269,7 +272,7 @@ public class FirstPersonController : MonoBehaviour {
             case "LevitateSkill": put_GO.aquireLevitate(); break;
 
             case "FireSkill": put_GO.aquireFire(); powerUp = 1; break;
-            case "WaterSkill": put_GO.aquireWater(); powerUp = 2; break;
+            case "WaterSkill": put_GO.aquireWater(); powerUp = 2; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
             case "LightningSkill": put_GO.aquireLightning(); powerUp = 3; break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
@@ -280,7 +283,10 @@ public class FirstPersonController : MonoBehaviour {
 
         if (col.gameObject.name == "PlanetWater")
         {
-            SceneManager.LoadScene("Water");
+           // SceneManager.LoadScene("Water");
+            Instantiate(myDeathSound);
+            transform.position = new Vector3(11.08f, 125.87f, -6.01f);
+            transform.rotation = new Quaternion(0f,0f,0f,0f);
         }
 
 		if (col.gameObject.tag == "Switch")
