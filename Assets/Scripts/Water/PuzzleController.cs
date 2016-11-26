@@ -20,14 +20,11 @@ public class PuzzleController : MonoBehaviour
     public bool puzzleLeftComplete;
     public bool puzzleRightComplete;
     bool passageOpen;
-
-    void Awake()
-    {
-        //DontDestroyOnLoad(this);
-    }
+    bool destroyTheCliffs;
 
     void Start () 
     {
+        destroyTheCliffs = false;
         myRumbleSound = rumbleSound.GetComponent<AudioSource>();
         leftScript = leftPuzzleController.GetComponent<LeftPuzzleScript>();
         puzzleLeftComplete = false;
@@ -42,11 +39,20 @@ public class PuzzleController : MonoBehaviour
     {
         if(puzzleLeftComplete == true && puzzleRightComplete == true && passageOpen == false)
         {
-            Destroy(cliff1);
-            Destroy(cliff2);
-            Destroy(cliff3);
+            Destroy(cliff1, 9f);
+            Destroy(cliff2, 9f);
+            Destroy(cliff3, 9f);
+
+            destroyTheCliffs = true;
             passageOpen = true;
             Instantiate(myRumbleSound);
+        }
+
+        if(destroyTheCliffs == true)
+        {
+            cliff1Transform.Translate(Vector3.down * 0.15f);
+            cliff2Transform.Translate(Vector3.down * 0.15f);
+            cliff3Transform.Translate(Vector3.down * 0.15f);
         }
 	}
 

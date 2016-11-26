@@ -21,6 +21,9 @@ public class RightPuzzleScript : MonoBehaviour
     public AudioSource puzzleCompleteSound;
     AudioSource myPuzzleCompleteSound;
 
+    public AudioSource spawnSound;
+    AudioSource mySpawnSound;
+
     int achieved;
     int randomNumber;
     float randomGlowDelay;
@@ -32,6 +35,7 @@ public class RightPuzzleScript : MonoBehaviour
 
 	void Start () 
     {
+        mySpawnSound = spawnSound.GetComponent<AudioSource>();
         myIncorrectSound = incorrectSound.GetComponent<AudioSource>();
         myPuzzleCompleteSound = puzzleCompleteSound.GetComponent<AudioSource>();
 
@@ -43,7 +47,7 @@ public class RightPuzzleScript : MonoBehaviour
         myController = puzzleController.GetComponent<PuzzleController>();
         achieved = 0;
         randomNumber = 0;
-        randomGlowDelay = Time.time + 3f;
+        randomGlowDelay = Time.time + 3.5f;
         puzzleStart = false;
         complete = false;
 	}
@@ -66,22 +70,26 @@ public class RightPuzzleScript : MonoBehaviour
                 if(randomNumber == 1)
                 {
                     plateUpScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
                 if(randomNumber == 2)
                 {
                     plateDownScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
                 if(randomNumber == 3)
                 {
                     plateLeftScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
                 if(randomNumber == 4)
                 {
                     plateRightScript.turnBlue();
-                    randomGlowDelay = Time.time + 3f;
+                    Instantiate(mySpawnSound);
+                    randomGlowDelay = Time.time + 3.5f;
                 }
             }
         }

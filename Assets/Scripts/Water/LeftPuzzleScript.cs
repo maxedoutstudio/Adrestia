@@ -37,9 +37,12 @@ public class LeftPuzzleScript : MonoBehaviour
 
     public AudioSource incorrectSound;
     AudioSource myIncorrectSound;
+    bool alreadyRed;
 
     void Start () 
     {
+        alreadyRed = false;
+
         myIncorrectSound = incorrectSound.GetComponent<AudioSource>();
         myPuzzleCompleteSound = puzzleCompleteSound.GetComponent<AudioSource>();
 
@@ -81,6 +84,7 @@ public class LeftPuzzleScript : MonoBehaviour
 
     public void resetAchieved()
     {
+        alreadyRed = false;
         achieved = 0;
         plate1Script.reset();
         plate2Script.reset();
@@ -95,17 +99,21 @@ public class LeftPuzzleScript : MonoBehaviour
 
     public void turnAllRed()
     {
-        plate1Script.turnRed();
-        plate2Script.turnRed();
-        plate3Script.turnRed();
-        plate4Script.turnRed();
-        plate5Script.turnRed();
-        plate6Script.turnRed();
-        plate7Script.turnRed();
-        plate8Script.turnRed();
-        plate9Script.turnRed();
+        if(alreadyRed == false)
+        {
+            alreadyRed = true;
+            plate1Script.turnRed();
+            plate2Script.turnRed();
+            plate3Script.turnRed();
+            plate4Script.turnRed();
+            plate5Script.turnRed();
+            plate6Script.turnRed();
+            plate7Script.turnRed();
+            plate8Script.turnRed();
+            plate9Script.turnRed();
 
-        Instantiate(myIncorrectSound);
+            Instantiate(myIncorrectSound);
+        }
     }
 
     public void turnAllGreen()

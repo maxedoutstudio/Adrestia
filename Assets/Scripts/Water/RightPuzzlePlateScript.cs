@@ -64,7 +64,7 @@ public class RightPuzzlePlateScript : MonoBehaviour {
     {
         myRend.material = blue;
         glowing = true;
-        countDownTimer = Time.time + 2.5f;
+        countDownTimer = Time.time + 3f;
     }
 
     void OnCollisionEnter(Collision col)

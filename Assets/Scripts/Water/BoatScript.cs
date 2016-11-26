@@ -49,7 +49,7 @@ public class BoatScript : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             col.transform.SetParent(transform);
-            startMovement = true;
+            Move();
         }
 
         if(col.gameObject.tag == "Wall")
@@ -75,7 +75,10 @@ public class BoatScript : MonoBehaviour
 
     public void Move()
     {
-        startMovement = true;
-        Instantiate(myPuzzleStartSound);
+        if(startMovement == false)
+        {
+            startMovement = true;
+            Instantiate(myPuzzleStartSound);
+        }
     }
 }

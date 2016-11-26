@@ -18,27 +18,36 @@ public class TeleportationPlateScript : MonoBehaviour
     public AudioSource warpSound;
     AudioSource myWarpSound;
 
+    public GameObject powerUpTracker;
+    PowerupTracker myPowerUpTrackerScript;
+
     void Start()
     {
+        myPowerUpTrackerScript = powerUpTracker.GetComponent<PowerupTracker>();
         myWarpSound = warpSound.GetComponent<AudioSource>();
 
         myRend = GetComponent<Renderer>();
         flashDelay = Time.time + 0.5f;
         flashWhite = true;
-        shouldFlash = true;
+        shouldFlash = false;
     }
 
     void Update()
     {
+        //if(myPowerUpTrackerScript.getCanWater() == true)
+        //{
+        //    setShouldFlash();
+        //}
+
         if(Time.time > flashDelay && flashWhite == true && shouldFlash == true)
         {
-            turnWhite();
+            turnGreen();
             flashWhite = false;
             flashDelay = Time.time + 0.5f;
         }
         if(Time.time > flashDelay && flashWhite == false && shouldFlash == true)
         {
-            turnGreen();
+            turnWhite();
             flashWhite = true;
             flashDelay = Time.time + 0.5f;
         }
@@ -62,12 +71,21 @@ public class TeleportationPlateScript : MonoBehaviour
     {
         myRend.material = blue;
     }
+
+    public void setShouldFlash()
+    {
+        if(shouldFlash == false)
+        {
+            shouldFlash = true;
+            Instantiate(myWarpSound);
+        }
+    }
         
     void OnCollisionEnter(Collision col)
     {
-        if (col.gameObject.name == "Mage")
+        if (col.gameObject.name == "Mage" && shouldFlash == true)
         {
-            Instantiate(myWarpSound);
+            //Instantiate(myWarpSound);
             SceneManager.LoadScene("FirePlanet");
         }
     }
