@@ -13,9 +13,9 @@ public class FirePlanetTeleporter : MonoBehaviour {
 		myPowerUpTrackerScript = powerUpTracker.GetComponent<PowerupTracker>();
 	}
 
-	void OnCollisionEnter(Collision col)
+	void OnTriggerEnter(Collider col)
 	{
-		if (col.gameObject.name == "Player" && myPowerUpTrackerScript.getCanFire()) {
+		if (col.gameObject.tag == "Player" && myPowerUpTrackerScript.getCanFire()) {
 			SceneManager.LoadScene ("Lightningworld");
 		}
 	}
