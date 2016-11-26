@@ -13,6 +13,6 @@ public class PickupRotator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        transform.Rotate(transform.up, 100.0f * Time.deltaTime);
+        transform.Rotate(transform.InverseTransformDirection(transform.up), 100.0f * Time.deltaTime);
 	}
 }
