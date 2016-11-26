@@ -18,9 +18,6 @@ public class FirstPersonController : MonoBehaviour {
     public AudioSource deathSound;
     AudioSource myDeathSound;
 
-	public ParticleSystem planet01;
-	public ParticleSystem planet02;
-
     // audio stuff
     public AudioSource pickupSound;
     AudioSource myPickupSound;
@@ -36,12 +33,14 @@ public class FirstPersonController : MonoBehaviour {
     public ParticleSystem myParticlesWater;
     public ParticleSystem myParticlesLightning;
 
+	public bool cast;
+
     // Animation toggle vars
     bool grounded;
     bool isWalking;
     bool isRunning;
     bool isAttacking;
-	bool isCasting;
+	public bool isCasting;
 
     // Reference vars
     Transform cameraTransform;
@@ -192,14 +191,10 @@ public class FirstPersonController : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false) {
 			//isWalking = false;
 			waiting = true;
-			if ((transform.position.x > -1.8 && transform.position.x < 1.8) && (transform.position.z > -31 && transform.position.z < -28)) {
-				isCasting = true;
-				planet01.Play ();
-			} else if ((transform.position.x > 24 && transform.position.x < 26) && (transform.position.z > -16 && transform.position.z < -14)) {
-				isCasting = true;
-				planet02.Play ();
-			} else {
-				isAttacking = true;
+			isCasting = GetComponent<SpellController> ().checkInRange (powerUp);
+			isAttacking = !isCasting;
+			if (isCasting) {
+				GetComponent<GravityBody> ().planet.GetComponentInChildren<ParticleSystem> ().Play ();
 			}
 
 			currentTime = Time.time + 0.4f;
@@ -238,6 +233,7 @@ public class FirstPersonController : MonoBehaviour {
 		if (isCasting && Time.time > currentTime)
 		{
 			isCasting = false;
+			cast = false;
 			nextAttackDelay = Time.time + 0.5f;
 			waiting = false;
 		}
@@ -275,8 +271,10 @@ public class FirstPersonController : MonoBehaviour {
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
 
-		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap")
-			SceneManager.LoadScene("FirePlanet", LoadSceneMode.Single);
+		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap") {
+			Instantiate (myDeathSound);
+			SceneManager.LoadScene ("FirePlanet", LoadSceneMode.Single);
+		}
 
         if (col.gameObject.name == "PlanetWater")
         {
