@@ -43,6 +43,7 @@ public class GravityBody : MonoBehaviour {
 
 		if (col.gameObject.tag.Contains("Planet") && !planet.gameObject.tag.Contains("Planet")) {
 			planet = col.gameObject.GetComponent<GravityAttractor> ();
+			print (planet.name);
 		}
 	}
 }
