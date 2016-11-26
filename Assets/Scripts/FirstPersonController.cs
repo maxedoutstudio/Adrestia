@@ -81,7 +81,7 @@ public class FirstPersonController : MonoBehaviour {
         walkSpeed = 6;
         mouseSensitivityY = 1f;
         mouseSensitivityX = 1f;
-        levitateForce = 25f;
+        levitateForce = 400f;
         levitationTime = 0f;
         jumped = false;
         jumping = false;
@@ -161,7 +161,7 @@ public class FirstPersonController : MonoBehaviour {
             }
             if(Time.time < levitationTime)
             {
-                rigidbody.AddForce (transform.up * levitateForce);
+                rigidbody.AddForce (transform.up * Time.deltaTime * levitateForce);
             }
         }
         if(cancelLevitate == true && Input.GetButtonUp("Jump"))
@@ -286,6 +286,13 @@ public class FirstPersonController : MonoBehaviour {
             Instantiate(myDeathSound);
             transform.position = new Vector3(11.08f, 125.87f, -6.01f);
             transform.rotation = new Quaternion(0f,0f,0f,0f);
+
+            GameObject.Find("boat1").GetComponent<BoatScript>().stopMove();
+            GameObject.Find("boat1").transform.position = new Vector3(4.5f,62.9f,107f);
+            GameObject.Find("boat1").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
+
+            GameObject.Find("boat2").transform.position = new Vector3(-5.9f,62.8f,107f);
+            GameObject.Find("boat2").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
         }
 	}
 }
