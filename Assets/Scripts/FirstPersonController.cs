@@ -71,7 +71,6 @@ public class FirstPersonController : MonoBehaviour {
     //Cam angle stuff
     float initCamAngle;
     bool mouseYEnabled;
-    float initMouseYAngle;
 
     void Start()
     {
@@ -123,12 +122,10 @@ public class FirstPersonController : MonoBehaviour {
             if (!mouseYEnabled)
             {
                 verticalLookRotation = initCamAngle;
-                initMouseYAngle = Input.GetAxis("Mouse Y") * mouseSensitivityY;
                 mouseYEnabled = true;
             }
-			transform.Rotate (Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
-            float diffVerticaLookRotation = Input.GetAxis ("Mouse Y") * mouseSensitivityY - initMouseYAngle;
-            verticalLookRotation += diffVerticaLookRotation;
+			transform.Rotate(Vector3.up * Input.GetAxis ("Mouse X") * mouseSensitivityX);
+            verticalLookRotation += Input.GetAxis("Mouse Y") * mouseSensitivityY;
             verticalLookRotation = Mathf.Clamp(verticalLookRotation, -40, 5);
             cameraTransform.localEulerAngles = Vector3.left * verticalLookRotation;
 		}
