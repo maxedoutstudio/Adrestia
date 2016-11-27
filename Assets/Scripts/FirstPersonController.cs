@@ -81,7 +81,7 @@ public class FirstPersonController : MonoBehaviour {
         walkSpeed = 6;
         mouseSensitivityY = 1f;
         mouseSensitivityX = 1f;
-        levitateForce = 25f;
+        levitateForce = 400f;
         levitationTime = 0f;
         jumped = false;
         jumping = false;
@@ -161,7 +161,7 @@ public class FirstPersonController : MonoBehaviour {
             }
             if(Time.time < levitationTime)
             {
-                rigidbody.AddForce (transform.up * levitateForce);
+                rigidbody.AddForce (transform.up * Time.deltaTime * levitateForce);
             }
         }
         if(cancelLevitate == true && Input.GetButtonUp("Jump"))
@@ -191,24 +191,28 @@ public class FirstPersonController : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && powerUp != 0 && Time.time > nextAttackDelay && waiting == false) {
 			//isWalking = false;
 			waiting = true;
-			isCasting = GetComponent<SpellController> ().checkInRange (powerUp);
+
+			if (GetComponent<SpellController>() != null)
+				isCasting = GetComponent<SpellController> ().checkInRange (powerUp);
 			isAttacking = !isCasting;
 			if (isCasting) {
-				GetComponent<GravityBody> ().planet.GetComponentInChildren<ParticleSystem> ().Play ();
+				ParticleSystem[] ps = GetComponent<GravityBody> ().planet.GetComponentsInChildren<ParticleSystem> ();
+				ps [0].Play ();
+				ps [1].Stop ();
 			}
 
 			currentTime = Time.time + 0.4f;
 		}
 
         // Powerup selector checks
-        if (Input.GetKeyDown("1") && put_GO.getCanFire())
-        {
-            Debug.Log("Fire selected");
-            powerUp = 1;
-        }
-        else if (Input.GetKeyDown("2") && put_GO.getCanWater())
+        if (Input.GetKeyDown("1") && put_GO.getCanWater())
         {
             Debug.Log("Water selected");
+            powerUp = 1;
+        }
+        else if (Input.GetKeyDown("2") && put_GO.getCanFire())
+        {
+            Debug.Log("Fire selected");
             powerUp = 2;
         }
         else if (Input.GetKeyDown("3") && put_GO.getCanLightning())
@@ -221,8 +225,8 @@ public class FirstPersonController : MonoBehaviour {
         {
             switch (powerUp)
             {
-                case 1: myParticlesFire.Play(); AudioSource.PlayClipAtPoint(fireSound, transform.position); break;
-                case 2: myParticlesWater.Play(); AudioSource.PlayClipAtPoint(waterSound, transform.position); break;
+                case 1: myParticlesWater.Play(); AudioSource.PlayClipAtPoint(waterSound, transform.position); break;
+                case 2: myParticlesFire.Play(); AudioSource.PlayClipAtPoint(fireSound, transform.position); break;
                 case 3: myParticlesLightning.Play(); AudioSource.PlayClipAtPoint(lightningSound, transform.position); break;
             }
             isAttacking = false;
@@ -264,8 +268,8 @@ public class FirstPersonController : MonoBehaviour {
             case "JumpSkill": put_GO.aquireJump(); break;
             case "LevitateSkill": put_GO.aquireLevitate(); break;
 
-            case "FireSkill": put_GO.aquireFire(); powerUp = 1; break;
-            case "WaterSkill": put_GO.aquireWater(); powerUp = 2; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "FireSkill": put_GO.aquireFire(); powerUp = 2; break;
+            case "WaterSkill": put_GO.aquireWater(); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
             case "LightningSkill": put_GO.aquireLightning(); powerUp = 3; break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
@@ -282,6 +286,13 @@ public class FirstPersonController : MonoBehaviour {
             Instantiate(myDeathSound);
             transform.position = new Vector3(11.08f, 125.87f, -6.01f);
             transform.rotation = new Quaternion(0f,0f,0f,0f);
+
+            GameObject.Find("boat1").GetComponent<BoatScript>().stopMove();
+            GameObject.Find("boat1").transform.position = new Vector3(4.5f,62.9f,107f);
+            GameObject.Find("boat1").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
+
+            GameObject.Find("boat2").transform.position = new Vector3(-5.9f,62.8f,107f);
+            GameObject.Find("boat2").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
         }
 	}
 }

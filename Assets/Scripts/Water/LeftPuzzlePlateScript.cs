@@ -56,32 +56,14 @@ public class LeftPuzzlePlateScript : MonoBehaviour
         {
             if(descend == true)
             {
-                transform.Translate(Vector3.left * 0.1f);
+                transform.Translate(Vector3.left * Time.deltaTime * 4f);
             }
-            /*if(Time.time < movementTime + 0.5f && descend == true)
-            {
-                moving = true;
-                transform.Translate(Vector3.left * 0.1f);
-            }
-            else if(descend == true)
-            {
-                moving = false;
-            }*/
         }
             
         if(ascend == true)
         {
-            transform.Translate(Vector3.right * 0.1f);
+            transform.Translate(Vector3.right * Time.deltaTime * 4f);
         }
-        /*if(Time.time < movementTime && ascend == true)
-        {
-            moving = true;
-            transform.Translate(Vector3.right * 0.1f);
-        }
-        else if(ascend == true)
-        {
-            moving = false;
-        }*/
 	}
 
     public void reset()

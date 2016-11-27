@@ -39,6 +39,7 @@ public class PuzzleController : MonoBehaviour
     {
         if(puzzleLeftComplete == true && puzzleRightComplete == true && passageOpen == false)
         {
+            Invoke("StopCliffs", 9f);
             Destroy(cliff1, 9f);
             Destroy(cliff2, 9f);
             Destroy(cliff3, 9f);
@@ -50,9 +51,9 @@ public class PuzzleController : MonoBehaviour
 
         if(destroyTheCliffs == true)
         {
-            cliff1Transform.Translate(Vector3.down * 0.15f);
-            cliff2Transform.Translate(Vector3.down * 0.15f);
-            cliff3Transform.Translate(Vector3.down * 0.15f);
+            cliff1Transform.Translate(Vector3.down * Time.deltaTime * 4f);
+            cliff2Transform.Translate(Vector3.down * Time.deltaTime * 4f);
+            cliff3Transform.Translate(Vector3.down * Time.deltaTime * 4f);
         }
 	}
 
@@ -64,5 +65,10 @@ public class PuzzleController : MonoBehaviour
     public void setPuzzleRightComplete()
     {
         puzzleRightComplete = true;
+    }
+
+    public void StopCliffs()
+    {
+        destroyTheCliffs = false;
     }
 }

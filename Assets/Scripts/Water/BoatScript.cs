@@ -24,7 +24,7 @@ public class BoatScript : MonoBehaviour
         startMovement = false;
         moveForward = true;
         moveBackward = false;
-        boatSpeed = 0.15f;
+        boatSpeed = 4f;
 	}
 	
 	void Update () 
@@ -33,13 +33,13 @@ public class BoatScript : MonoBehaviour
         {
             if(moveForward == true)
             {
-                transform.Translate(Vector3.forward * boatSpeed);
-                otherBoatTransform.Translate(Vector3.forward * boatSpeed);
+                transform.Translate(Vector3.forward * Time.deltaTime * boatSpeed);
+                otherBoatTransform.Translate(Vector3.forward * Time.deltaTime * boatSpeed);
             }
             if(moveBackward == true)
             {
-                transform.Translate(Vector3.back * boatSpeed);
-                otherBoatTransform.Translate(Vector3.back * boatSpeed);
+                transform.Translate(Vector3.back * Time.deltaTime * boatSpeed);
+                otherBoatTransform.Translate(Vector3.back * Time.deltaTime * boatSpeed);
             }
         }
 	}
@@ -80,5 +80,12 @@ public class BoatScript : MonoBehaviour
             startMovement = true;
             Instantiate(myPuzzleStartSound);
         }
+    }
+
+    public void stopMove()
+    {
+        startMovement = false;
+        moveForward = true;
+        moveBackward = false;
     }
 }
