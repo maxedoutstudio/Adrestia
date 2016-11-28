@@ -77,7 +77,7 @@ public class PowerupTracker : MonoBehaviour
         }
         if (sprintText != null && sprintText.activeSelf == true)
         {
-            if ((Input.GetKey(KeyCode.Space)))
+            if ((Input.GetKey(KeyCode.LeftShift)))
             {
                 sprintText.SetActive(false);
             }
