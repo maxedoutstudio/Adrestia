@@ -198,7 +198,7 @@ public class FirstPersonController : MonoBehaviour {
 			if (isCasting) {
 				ParticleSystem[] ps = GetComponent<GravityBody> ().planet.GetComponentsInChildren<ParticleSystem> ();
 				ps [0].Play ();
-				ps [1].Stop ();
+				Destroy (ps [1].gameObject);
 			}
 
 			currentTime = Time.time + 0.4f;

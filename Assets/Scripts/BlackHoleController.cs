@@ -25,4 +25,10 @@ public class BlackHoleController : MonoBehaviour {
 		if (fire) Fire.Play ();
 		if (lightning) Lightning.Play ();
 	}
+
+	public void StopEmit () {
+		Water.Stop ();
+		Fire.Stop ();
+		Lightning.Stop ();
+	}
 }

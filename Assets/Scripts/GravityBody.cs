@@ -36,14 +36,18 @@ public class GravityBody : MonoBehaviour {
 		planet.Attract(rigidbody);
 	}
 
-	void OnCollisionEnter(Collision col) {
-		if (col.gameObject.tag == "Connection" && planet.gameObject.tag != "Connection") {
-			planet = col.gameObject.GetComponent<GravityAttractor> ();
-		}
-
+	void OnCollisionEnter (Collision col) {
 		if (col.gameObject.tag.Contains("Planet") && !planet.gameObject.tag.Contains("Planet")) {
 			planet = col.gameObject.GetComponent<GravityAttractor> ();
 			print (planet.name);
+		}
+	}
+
+	void OnCollisionStay (Collision col) {
+		if (col.gameObject.tag.Contains("GrowOn") && !planet.gameObject.tag.Contains("GrowOn")) {
+			print (col.gameObject.GetComponent<BridgeController> ().countdown);
+			if (col.gameObject.GetComponent<BridgeController>().countdown)
+				planet = col.gameObject.GetComponent<GravityAttractor> ();
 		}
 	}
 }
