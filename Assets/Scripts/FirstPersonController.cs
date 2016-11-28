@@ -15,6 +15,10 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+    public GameObject UIWater;
+    public GameObject UIFire;
+    public GameObject UILightning;
+
     public AudioSource deathSound;
     AudioSource myDeathSound;
 
@@ -27,6 +31,7 @@ public class FirstPersonController : MonoBehaviour {
     public AudioClip waterSound;
     public AudioClip lightningSound;
 	public AudioClip walkingSound;
+    public AudioClip powerSwitchSound;
 
     // Skills
     public ParticleSystem myParticlesFire;
@@ -198,7 +203,7 @@ public class FirstPersonController : MonoBehaviour {
 			if (isCasting) {
 				ParticleSystem[] ps = GetComponent<GravityBody> ().planet.GetComponentsInChildren<ParticleSystem> ();
 				ps [0].Play ();
-				ps [1].Stop ();
+				Destroy (ps [1].gameObject);
 			}
 
 			currentTime = Time.time + 0.4f;
@@ -207,18 +212,39 @@ public class FirstPersonController : MonoBehaviour {
         // Powerup selector checks
         if (Input.GetKeyDown("1") && put_GO.getCanWater())
         {
-            Debug.Log("Water selected");
-            powerUp = 1;
+            if(powerUp != 1)
+            {    
+                Debug.Log("Water selected");
+                UIFire.SetActive(false);
+                UILightning.SetActive(false);
+                UIWater.SetActive(true);
+                AudioSource.PlayClipAtPoint(powerSwitchSound, transform.position);
+                powerUp = 1;
+            }
         }
         else if (Input.GetKeyDown("2") && put_GO.getCanFire())
         {
-            Debug.Log("Fire selected");
-            powerUp = 2;
+            if(powerUp != 2)
+            {
+                Debug.Log("Fire selected");
+                UIWater.SetActive(false);
+                UILightning.SetActive(false);
+                UIFire.SetActive(true);
+                AudioSource.PlayClipAtPoint(powerSwitchSound, transform.position);
+                powerUp = 2;
+            }
         }
         else if (Input.GetKeyDown("3") && put_GO.getCanLightning())
         {
-            Debug.Log("Lightning selected");
-            powerUp = 3;
+            if(powerUp != 3)
+            {
+                Debug.Log("Lightning selected");
+                UIWater.SetActive(false);
+                UIFire.SetActive(false);
+                UILightning.SetActive(true);
+                AudioSource.PlayClipAtPoint(powerSwitchSound, transform.position);
+                powerUp = 3;
+            }
         }
 
         if (isAttacking && Time.time > currentTime)
@@ -268,16 +294,18 @@ public class FirstPersonController : MonoBehaviour {
             case "JumpSkill": put_GO.aquireJump(); break;
             case "LevitateSkill": put_GO.aquireLevitate(); break;
 
-            case "FireSkill": put_GO.aquireFire(); powerUp = 2; break;
-            case "WaterSkill": put_GO.aquireWater(); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
-            case "LightningSkill": put_GO.aquireLightning(); powerUp = 3; break;
+            case "FireSkill": put_GO.aquireFire(); UIWater.SetActive(false); UILightning.SetActive(false); UIFire.SetActive(true); powerUp = 2; break;
+            case "WaterSkill": put_GO.aquireWater(); UIFire.SetActive(false); UILightning.SetActive(false); UIWater.SetActive(true); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "LightningSkill": put_GO.aquireLightning(); UIWater.SetActive(false); UIFire.SetActive(false); UILightning.SetActive(true); powerUp = 3; break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
 
 		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap") {
 			Instantiate (myDeathSound);
-			SceneManager.LoadScene ("FirePlanet", LoadSceneMode.Single);
+			transform.position = new Vector3(1.898f, 109.97f, 2.12f);
+			transform.rotation = new Quaternion(0f,0f,0f,0f);
+			//SceneManager.LoadScene ("FirePlanet", LoadSceneMode.Single);
 		}
 
         if (col.gameObject.name == "PlanetWater")

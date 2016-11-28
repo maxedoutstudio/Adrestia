@@ -23,6 +23,10 @@ public class FireParticle : MonoBehaviour
 			obj.GetComponent<BossControl> ().Hit ();
 			print ("Hit boss");
 		}
+
+		if (obj.tag == "GrowOnFire") {
+			obj.GetComponent<BridgeController> ().Grow();
+		}
        
         if(obj.name != "Mage" && obj.tag != "Planet")
         {

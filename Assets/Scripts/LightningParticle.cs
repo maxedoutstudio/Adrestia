@@ -24,6 +24,10 @@ public class LightningParticle : MonoBehaviour
 			print ("Hit boss");
 		}
 
+		if (obj.tag == "GrowOnLightning") {
+			obj.GetComponent<BridgeController> ().Grow();
+		}
+
         if(obj.name != "Mage" && obj.tag != "Planet")
         {
             gameObject.GetComponent<ParticleSystem>().Clear();

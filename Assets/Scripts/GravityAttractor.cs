@@ -59,8 +59,10 @@ public class GravityAttractor : MonoBehaviour {
 
 		// For boss level only; make boss face player
 		GameObject boss = GameObject.FindGameObjectWithTag ("Boss");
-		if (boss != null) {
-			boss.GetComponent<Transform> ().rotation = body.rotation * Quaternion.Euler(0, -180, 0);
+		if (boss != null && !(boss.GetComponent<BossControl> ().isDead)) {
+			boss.GetComponent<Transform> ().rotation = body.rotation * Quaternion.Euler (0, -180, 0);
+		} else {
+			//print ("isDead");
 		}
 	}  
 }

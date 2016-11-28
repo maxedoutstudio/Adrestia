@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class SpellController : MonoBehaviour {
 
-	GravityBody body;
+	public AudioClip cast;
 
+	GravityBody body;
 	List<string> visited;
 
 	// Use this for initialization
@@ -20,20 +21,28 @@ public class SpellController : MonoBehaviour {
 	}
 
 	public bool checkInRange(int powerUp) {
-		if (visited.Contains (body.planet.name)) {
+		if (visited.Contains (body.planet.name) && body.planet.GetComponentsInChildren<ParticleSystem>().Length < 2) {
+			print ("visited");
 			return false;
 		}
 		if ((powerUp == 1 && body.planet.name.Contains ("Water"))
 		    || (powerUp == 2 && body.planet.name.Contains ("Fire"))
 		    || (powerUp == 3 && body.planet.name.Contains ("Lightning"))) {
-			visited.Add (body.planet.name);
+
 			print (transform.position);
 			print (body.planet.transform.position);
-			return (transform.position.x > body.planet.transform.position.x - 1
-			&& transform.position.x < body.planet.transform.position.x + 1
-			&& transform.position.z > body.planet.transform.position.z - 1
-			&& transform.position.z < body.planet.transform.position.z + 1);
+			bool inRange = (transform.position.x > body.planet.transform.position.x - 1
+				&& transform.position.x < body.planet.transform.position.x + 1
+				&& transform.position.z > body.planet.transform.position.z - 1
+				&& transform.position.z < body.planet.transform.position.z + 1);
+			if (inRange) {
+				visited.Add (body.planet.name);
+				AudioSource.PlayClipAtPoint (cast, transform.position);
+			}
+			return inRange;
 		} else {
+			print (powerUp);
+			print (body.planet.name);
 			return false;
 		}
 	}

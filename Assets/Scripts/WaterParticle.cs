@@ -25,6 +25,10 @@ public class WaterParticle : MonoBehaviour
 			print ("Hit boss");
 		}
 
+		if (obj.tag == "GrowOnWater") {
+			obj.GetComponent<BridgeController> ().Grow();
+		}
+
         if(obj.name != "Mage" && obj.tag != "Planet")
         {
             gameObject.GetComponent<ParticleSystem>().Clear();

@@ -3,11 +3,15 @@ using System.Collections;
 
 public class BridgeController : MonoBehaviour {
 
-	bool grow = false;
-	bool shrink = false;
-	bool countdown = false;
+	public bool grow = false;
+	public bool shrink = false;
+	public bool countdown = false;
 
-	float time = 3f;
+	float time = 4f;
+
+	void Start() {
+		GetComponent<GravityAttractor> ().enabled = false;
+	}
 
 	void Update() {
 		if (grow) {
@@ -39,8 +43,8 @@ public class BridgeController : MonoBehaviour {
 		}
 	}
 
-	void OnCollisionEnter (Collision col) {
-		if (col.gameObject.tag == "Player" && !grow && !countdown && !shrink) {
+	public void Grow () {
+		if (!grow && !countdown && !shrink) {
 			grow = true;
 			GetComponent<GravityAttractor> ().enabled = false;
 		}

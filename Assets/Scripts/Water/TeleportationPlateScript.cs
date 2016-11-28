@@ -9,6 +9,8 @@ public class TeleportationPlateScript : MonoBehaviour
     public Material green;
     public Material blue;
 
+    public GameObject loadingScreen;
+
     Renderer myRend;
 
     float flashDelay;
@@ -87,7 +89,8 @@ public class TeleportationPlateScript : MonoBehaviour
         if (col.gameObject.name == "Mage" && shouldFlash == true)
         {
             //Instantiate(myWarpSound);
-            SceneManager.LoadScene("FirePlanet");
+            loadingScreen.SetActive(true);
+            //SceneManager.LoadScene("FirePlanet");
         }
     }
 }
