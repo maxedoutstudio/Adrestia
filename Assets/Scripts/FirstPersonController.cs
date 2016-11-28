@@ -303,7 +303,9 @@ public class FirstPersonController : MonoBehaviour {
 
 		if (col.gameObject.tag == "DeathZone" || col.gameObject.tag == "SpearTrap" || col.gameObject.tag == "ShurikenTrap" || col.gameObject.tag == "BladeTrap" || col.gameObject.tag == "GreatAxeTrap") {
 			Instantiate (myDeathSound);
-			SceneManager.LoadScene ("FirePlanet", LoadSceneMode.Single);
+			transform.position = new Vector3(1.898f, 109.97f, 2.12f);
+			transform.rotation = new Quaternion(0f,0f,0f,0f);
+			//SceneManager.LoadScene ("FirePlanet", LoadSceneMode.Single);
 		}
 
         if (col.gameObject.name == "PlanetWater")
