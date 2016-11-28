@@ -31,8 +31,63 @@ public class PowerupTracker : MonoBehaviour
 	private bool canDoubleJump;
 	private bool canLevitate;
 
+    public GameObject forwardText;
+    public GameObject backwardText;
+    public GameObject strafeText;
+    public GameObject jumpText;
+    public GameObject levitateText;
+    public GameObject sprintText;
+
+    void Update()
+    {
+        if (forwardText != null && forwardText.activeSelf == true)
+        {
+            if ((Input.GetKey(KeyCode.W)))
+            {
+                forwardText.SetActive(false);
+            }
+        }
+        if (backwardText != null && backwardText.activeSelf == true)
+        {
+            if ((Input.GetKey(KeyCode.S)))
+            {
+                backwardText.SetActive(false);
+            }
+        }
+        if (strafeText != null && strafeText.activeSelf == true)
+        {
+            if (Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.A)))
+            {
+                strafeText.SetActive(false);
+            }
+        }
+        if (jumpText != null && jumpText.activeSelf == true)
+        {
+            if ((Input.GetKey(KeyCode.Space)))
+            {
+                jumpText.SetActive(false);
+            }
+        }
+        if (levitateText != null && levitateText.activeSelf == true)
+        {
+            if ((Input.GetKey(KeyCode.Space)))
+            {
+                levitateText.SetActive(false);
+            }
+        }
+        if (sprintText != null && sprintText.activeSelf == true)
+        {
+            if ((Input.GetKey(KeyCode.Space)))
+            {
+                sprintText.SetActive(false);
+            }
+        }
+
+    }
+
 	void Start()
 	{
+
 		canBackward = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
         canLeftRight = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
         canSprint = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
@@ -50,18 +105,30 @@ public class PowerupTracker : MonoBehaviour
 	{
 		canBackward = true;
 		Destroy (backwardPowerUp);
+        if (backwardText != null)
+        {
+            backwardText.SetActive(true);
+        }
 	}
 
 	public void aquireLeftRight()
 	{
 		canLeftRight = true;
 		Destroy (leftRightPowerUp);
+        if (strafeText != null)
+        {
+            strafeText.SetActive(true);
+        }
 	}
 
 	public void aquireSprint()
 	{
 		canSprint = true;
 		Destroy (sprintPowerUp);
+        if (sprintText != null)
+        {
+            sprintText.SetActive(true);
+        }
 	}
 
 	public void aquireFire()
@@ -86,6 +153,10 @@ public class PowerupTracker : MonoBehaviour
 	{
 		canJump = true;
 		Destroy (jumpPowerUp);
+        if (jumpText != null)
+        {
+            jumpText.SetActive(true);
+        }
 	}
 
 	public void aquireDoubleJump()
@@ -98,6 +169,10 @@ public class PowerupTracker : MonoBehaviour
 	{
 		canLevitate = true;
 		Destroy(levitatePowerUp);
+        if (levitateText != null)
+        {
+            levitateText.SetActive(true);
+        }
 	}
 
 	public bool getCanBackward()
