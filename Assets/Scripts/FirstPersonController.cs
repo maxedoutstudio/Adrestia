@@ -31,6 +31,7 @@ public class FirstPersonController : MonoBehaviour {
     public AudioClip waterSound;
     public AudioClip lightningSound;
 	public AudioClip walkingSound;
+    public AudioClip powerSwitchSound;
 
     // Skills
     public ParticleSystem myParticlesFire;
@@ -211,27 +212,39 @@ public class FirstPersonController : MonoBehaviour {
         // Powerup selector checks
         if (Input.GetKeyDown("1") && put_GO.getCanWater())
         {
-            Debug.Log("Water selected");
-            UIFire.SetActive(false);
-            UILightning.SetActive(false);
-            UIWater.SetActive(true);
-            powerUp = 1;
+            if(powerUp != 1)
+            {    
+                Debug.Log("Water selected");
+                UIFire.SetActive(false);
+                UILightning.SetActive(false);
+                UIWater.SetActive(true);
+                AudioSource.PlayClipAtPoint(powerSwitchSound, transform.position);
+                powerUp = 1;
+            }
         }
         else if (Input.GetKeyDown("2") && put_GO.getCanFire())
         {
-            Debug.Log("Fire selected");
-            UIWater.SetActive(false);
-            UILightning.SetActive(false);
-            UIFire.SetActive(true);
-            powerUp = 2;
+            if(powerUp != 2)
+            {
+                Debug.Log("Fire selected");
+                UIWater.SetActive(false);
+                UILightning.SetActive(false);
+                UIFire.SetActive(true);
+                AudioSource.PlayClipAtPoint(powerSwitchSound, transform.position);
+                powerUp = 2;
+            }
         }
         else if (Input.GetKeyDown("3") && put_GO.getCanLightning())
         {
-            Debug.Log("Lightning selected");
-            UIWater.SetActive(false);
-            UIFire.SetActive(false);
-            UILightning.SetActive(true);
-            powerUp = 3;
+            if(powerUp != 3)
+            {
+                Debug.Log("Lightning selected");
+                UIWater.SetActive(false);
+                UIFire.SetActive(false);
+                UILightning.SetActive(true);
+                AudioSource.PlayClipAtPoint(powerSwitchSound, transform.position);
+                powerUp = 3;
+            }
         }
 
         if (isAttacking && Time.time > currentTime)
