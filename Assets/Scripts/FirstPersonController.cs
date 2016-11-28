@@ -14,6 +14,7 @@ public class FirstPersonController : MonoBehaviour {
 	public float levitateForce;
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
+    public GameObject menu;
 
     public GameObject UIWater;
     public GameObject UIFire;
@@ -267,6 +268,21 @@ public class FirstPersonController : MonoBehaviour {
 			nextAttackDelay = Time.time + 0.5f;
 			waiting = false;
 		}
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(menu.activeSelf == true)
+            {
+                menu.SetActive(false);
+                Cursor.visible = false;
+            }
+            else if(menu.activeSelf == false)
+            {
+                menu.SetActive(true);
+                Cursor.visible = true;
+
+            }
+        }
 
         // Animation toggles
         animator.SetBool("isWalking", isWalking);
