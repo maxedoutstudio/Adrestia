@@ -37,12 +37,18 @@ public class GravityBody : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision col) {
+		if (col.gameObject.tag.Contains("GrowOn") && !planet.gameObject.tag.Contains("GrowOn")) {
+			//print (col.gameObject.GetComponent<BridgeController> ().countdown);
+			//if (col.gameObject.GetComponent<BridgeController>().countdown)
+				planet = col.gameObject.GetComponent<GravityAttractor> ();
+		}
+
 		if (col.gameObject.tag.Contains("Planet") && !planet.gameObject.tag.Contains("Planet")) {
 			planet = col.gameObject.GetComponent<GravityAttractor> ();
 			print (planet.name);
 		}
 	}
-
+	/*
 	void OnCollisionStay (Collision col) {
 		if (col.gameObject.tag.Contains("GrowOn") && !planet.gameObject.tag.Contains("GrowOn")) {
 			print (col.gameObject.GetComponent<BridgeController> ().countdown);
@@ -50,4 +56,5 @@ public class GravityBody : MonoBehaviour {
 				planet = col.gameObject.GetComponent<GravityAttractor> ();
 		}
 	}
+	*/
 }
