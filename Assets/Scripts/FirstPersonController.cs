@@ -15,6 +15,10 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+    public GameObject UIWater;
+    public GameObject UIFire;
+    public GameObject UILightning;
+
     public AudioSource deathSound;
     AudioSource myDeathSound;
 
@@ -208,16 +212,25 @@ public class FirstPersonController : MonoBehaviour {
         if (Input.GetKeyDown("1") && put_GO.getCanWater())
         {
             Debug.Log("Water selected");
+            UIFire.SetActive(false);
+            UILightning.SetActive(false);
+            UIWater.SetActive(true);
             powerUp = 1;
         }
         else if (Input.GetKeyDown("2") && put_GO.getCanFire())
         {
             Debug.Log("Fire selected");
+            UIWater.SetActive(false);
+            UILightning.SetActive(false);
+            UIFire.SetActive(true);
             powerUp = 2;
         }
         else if (Input.GetKeyDown("3") && put_GO.getCanLightning())
         {
             Debug.Log("Lightning selected");
+            UIWater.SetActive(false);
+            UIFire.SetActive(false);
+            UILightning.SetActive(true);
             powerUp = 3;
         }
 
@@ -268,9 +281,9 @@ public class FirstPersonController : MonoBehaviour {
             case "JumpSkill": put_GO.aquireJump(); break;
             case "LevitateSkill": put_GO.aquireLevitate(); break;
 
-            case "FireSkill": put_GO.aquireFire(); powerUp = 2; break;
-            case "WaterSkill": put_GO.aquireWater(); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
-            case "LightningSkill": put_GO.aquireLightning(); powerUp = 3; break;
+            case "FireSkill": put_GO.aquireFire(); UIWater.SetActive(false); UILightning.SetActive(false); UIFire.SetActive(true); powerUp = 2; break;
+            case "WaterSkill": put_GO.aquireWater(); UIFire.SetActive(false); UILightning.SetActive(false); UIWater.SetActive(true); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "LightningSkill": put_GO.aquireLightning(); UIWater.SetActive(false); UIFire.SetActive(false); UILightning.SetActive(true); powerUp = 3; break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }

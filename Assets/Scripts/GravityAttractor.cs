@@ -62,7 +62,7 @@ public class GravityAttractor : MonoBehaviour {
 		if (boss != null && !(boss.GetComponent<BossControl> ().isDead)) {
 			boss.GetComponent<Transform> ().rotation = body.rotation * Quaternion.Euler (0, -180, 0);
 		} else {
-			print ("isDead");
+			//print ("isDead");
 		}
 	}  
 }
