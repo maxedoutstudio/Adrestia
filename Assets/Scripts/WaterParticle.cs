@@ -43,7 +43,7 @@ public class WaterParticle : MonoBehaviour
 		if(obj.tag == "water_interaction")
 		{
 			Instantiate(myDestructionSound);
-			boiler_puzzle.boiler_water_time =45.00f;
+			boiler_puzzle.boiler_water_time =30.00f;
 
 		}
 

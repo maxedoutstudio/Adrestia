@@ -36,7 +36,7 @@ public class FireParticle : MonoBehaviour
 		if(obj.tag == "fire_interaction")
 		{
 			Instantiate(myDestructionSound);
-			boiler_puzzle.boiler_fire_time = 45.00f;
+			boiler_puzzle.boiler_fire_time = 30.00f;
 
 		}
     }

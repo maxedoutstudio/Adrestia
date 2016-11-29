@@ -277,17 +277,19 @@ public class FirstPersonController : MonoBehaviour {
 			waiting = false;
 		}
             
-        if(Input.GetKeyDown(KeyCode.Escape))
+		if(Input.GetKeyDown(KeyCode.Tab))
         {
             if(menu.activeSelf == true)
             {
                 menu.SetActive(false);
+				Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Instantiate(myClosePause);
             }
             else if(menu.activeSelf == false)
             {
                 menu.SetActive(true);
+				Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 Instantiate(myOpenPause);
             }
@@ -347,5 +349,9 @@ public class FirstPersonController : MonoBehaviour {
             GameObject.Find("boat2").transform.position = new Vector3(-5.9f,62.8f,107f);
             GameObject.Find("boat2").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
         }
+	}
+
+	public void playDeathSound() {
+		Instantiate(myDeathSound);
 	}
 }
