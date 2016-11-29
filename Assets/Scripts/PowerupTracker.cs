@@ -89,6 +89,11 @@ public class PowerupTracker : MonoBehaviour
 
 	void Start()
 	{
+        // Check for initial text fade
+        if (forwardText != null)
+        {
+            StartCoroutine(FadeInPowerUp(forwardText));
+        }
 
 		canBackward = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
         canLeftRight = unlockAll || waterDefault || fireDefault || lightningDefault || bossDefault;
@@ -249,7 +254,7 @@ public class PowerupTracker : MonoBehaviour
 
         foreach (Transform child in powerup.transform)
         {
-            child.GetComponent<RawImage>().CrossFadeAlpha(2.0f, fadeTime/2.0f, false);
+            child.GetComponent<RawImage>().CrossFadeAlpha(2.0f, fadeTime * 3.0f, false);
         }
         yield return null;
     }
