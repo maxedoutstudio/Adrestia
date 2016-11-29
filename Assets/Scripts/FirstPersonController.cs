@@ -321,9 +321,9 @@ public class FirstPersonController : MonoBehaviour {
             case "JumpSkill": put_GO.aquireJump(); break;
             case "LevitateSkill": put_GO.aquireLevitate(); break;
 
-            case "FireSkill": put_GO.aquireFire(); UIWater.SetActive(false); UILightning.SetActive(false); UIFire.SetActive(true); powerUp = 2; break;
-            case "WaterSkill": put_GO.aquireWater(); UIFire.SetActive(false); UILightning.SetActive(false); UIWater.SetActive(true); powerUp = 1; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
-            case "LightningSkill": put_GO.aquireLightning(); UIWater.SetActive(false); UIFire.SetActive(false); UILightning.SetActive(true); powerUp = 3; GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "FireSkill": put_GO.aquireFire(); GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "WaterSkill": put_GO.aquireWater(); GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
+            case "LightningSkill": put_GO.aquireLightning(); GameObject.Find("warpGate").GetComponent<TeleportationPlateScript>().setShouldFlash(); break;
 
             case "DoubleJumpSkill": put_GO.aquireDoubleJump(); break;
         }
