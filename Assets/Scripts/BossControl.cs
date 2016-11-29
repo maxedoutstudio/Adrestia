@@ -66,17 +66,18 @@ public class BossControl : MonoBehaviour {
 
 		if (time <= 0f && returnToMenuTime > 0f) {
 			returnToMenuTime -= Time.deltaTime;
-			if (returnToMenuTime <= 0f) {
-				Time.timeScale = 1f;
-                if (storyText != null)
-                {
-                    Cursor.visible = true;
-                    Cursor.lockState = CursorLockMode.None;
-                    storyText.SetActive(true);
-                } else
-                {
-                    loadingScreen.SetActive (true);
-                }
+		}
+
+		if (returnToMenuTime <= 0f) {
+			Time.timeScale = 1f;
+			if (storyText != null)
+			{
+				Cursor.visible = true;
+				Cursor.lockState = CursorLockMode.None;
+				storyText.SetActive(true);
+			} else
+			{
+				loadingScreen.SetActive (true);
 			}
 		}
 
@@ -84,7 +85,7 @@ public class BossControl : MonoBehaviour {
 		if (attack && attackDelay < 0f) {
 			attack = false;
 			attackDelay = 2f;
-			Camera.main.GetComponent<CameraShake> ().shakeDuration = 6f - health;
+			Camera.main.GetComponent<CameraShake> ().shakeDuration = 8f - health;
 		} else if (attack) {
 			attackDelay -= Time.deltaTime;
 		}
