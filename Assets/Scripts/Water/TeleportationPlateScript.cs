@@ -95,6 +95,7 @@ public class TeleportationPlateScript : MonoBehaviour
             if (sceneStory != null)
             {
                 Cursor.visible = true;
+                Cursor.lockState = CursorLockMode.None;
                 sceneStory.SetActive(true);
             }
             else
