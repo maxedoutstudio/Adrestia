@@ -23,6 +23,8 @@ public class TeleportationPlateScript : MonoBehaviour
     public GameObject powerUpTracker;
     PowerupTracker myPowerUpTrackerScript;
 
+    public GameObject sceneStory;
+
     void Start()
     {
         myPowerUpTrackerScript = powerUpTracker.GetComponent<PowerupTracker>();
@@ -89,8 +91,18 @@ public class TeleportationPlateScript : MonoBehaviour
         if (col.gameObject.name == "Mage" && shouldFlash == true)
         {
             //Instantiate(myWarpSound);
-            loadingScreen.SetActive(true);
+
+            if (sceneStory != null)
+            {
+                Cursor.visible = true;
+                sceneStory.SetActive(true);
+            }
+            else
+            {
+                loadingScreen.SetActive(true);
+            }
             //SceneManager.LoadScene("FirePlanet");
+
         }
     }
 }
