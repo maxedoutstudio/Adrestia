@@ -15,6 +15,8 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+    public GameObject menu;
+
     public GameObject UIWater;
     public GameObject UIFire;
     public GameObject UILightning;
@@ -32,6 +34,11 @@ public class FirstPersonController : MonoBehaviour {
     public AudioClip lightningSound;
 	public AudioClip walkingSound;
     public AudioClip powerSwitchSound;
+
+    public AudioSource openPause;
+    AudioSource myOpenPause;
+    public AudioSource closePause;
+    AudioSource myClosePause;
 
     // Skills
     public ParticleSystem myParticlesFire;
@@ -78,6 +85,8 @@ public class FirstPersonController : MonoBehaviour {
 
     void Start()
     {
+        myOpenPause = openPause.GetComponent<AudioSource>();
+        myClosePause = closePause.GetComponent<AudioSource>();
         myDeathSound = deathSound.GetComponent<AudioSource>();
         myLevitateSound = levitateSound.GetComponent<AudioSource>();
         myPickupSound = pickupSound.GetComponent<AudioSource>();
@@ -267,6 +276,22 @@ public class FirstPersonController : MonoBehaviour {
 			nextAttackDelay = Time.time + 0.5f;
 			waiting = false;
 		}
+            
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(menu.activeSelf == true)
+            {
+                menu.SetActive(false);
+                Cursor.visible = false;
+                Instantiate(myClosePause);
+            }
+            else if(menu.activeSelf == false)
+            {
+                menu.SetActive(true);
+                Cursor.visible = true;
+                Instantiate(myOpenPause);
+            }
+        }
 
         // Animation toggles
         animator.SetBool("isWalking", isWalking);
