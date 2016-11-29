@@ -30,6 +30,8 @@ public class BossControl : MonoBehaviour {
 	float attackDelay = 1.5f;
 	Vector3 direction, target;
 
+    public GameObject storyText;
+
 	// Use this for initialization
 	void Start () {
 		health = 6;
@@ -66,7 +68,15 @@ public class BossControl : MonoBehaviour {
 			returnToMenuTime -= Time.deltaTime;
 			if (returnToMenuTime <= 0f) {
 				Time.timeScale = 1f;
-				loadingScreen.SetActive (true);
+                if (storyText != null)
+                {
+                    Cursor.visible = true;
+                    Cursor.lockState = CursorLockMode.None;
+                    storyText.SetActive(true);
+                } else
+                {
+                    loadingScreen.SetActive (true);
+                }
 			}
 		}
 
