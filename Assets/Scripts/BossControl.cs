@@ -27,7 +27,7 @@ public class BossControl : MonoBehaviour {
 
 	float time = 2f;
 	float returnToMenuTime = 1f;
-	float attackDelay = 1f;
+	float attackDelay = 1.5f;
 	Vector3 direction, target;
 
 	// Use this for initialization
@@ -74,7 +74,7 @@ public class BossControl : MonoBehaviour {
 		if (attack && attackDelay < 0f) {
 			attack = false;
 			attackDelay = 2f;
-			Camera.main.GetComponent<CameraShake> ().shakeDuration = 2f;
+			Camera.main.GetComponent<CameraShake> ().shakeDuration = 6f - health;
 		} else if (attack) {
 			attackDelay -= Time.deltaTime;
 		}

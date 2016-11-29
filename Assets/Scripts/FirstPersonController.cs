@@ -348,4 +348,8 @@ public class FirstPersonController : MonoBehaviour {
             GameObject.Find("boat2").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
         }
 	}
+
+	public void playDeathSound() {
+		Instantiate(myDeathSound);
+	}
 }
