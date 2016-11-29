@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class PowerupTracker : MonoBehaviour 
 {
@@ -20,7 +21,6 @@ public class PowerupTracker : MonoBehaviour
     public bool lightningDefault;
     public bool bossDefault;
 
-
 	private bool canBackward;
 	private bool canLeftRight;
 	private bool canSprint;
@@ -38,48 +38,50 @@ public class PowerupTracker : MonoBehaviour
     public GameObject levitateText;
     public GameObject sprintText;
 
+    public float fadeTime;
+
     void Update()
     {
         if (forwardText != null && forwardText.activeSelf == true)
         {
             if ((Input.GetKey(KeyCode.W)))
             {
-                forwardText.SetActive(false);
+                StartCoroutine(FadeOutPowerUp(forwardText));
             }
         }
         if (backwardText != null && backwardText.activeSelf == true)
         {
             if ((Input.GetKey(KeyCode.S)))
             {
-                backwardText.SetActive(false);
+                StartCoroutine(FadeOutPowerUp(backwardText));
             }
         }
         if (strafeText != null && strafeText.activeSelf == true)
         {
             if (Input.GetKey(KeyCode.A) || (Input.GetKey(KeyCode.A)))
             {
-                strafeText.SetActive(false);
+                StartCoroutine(FadeOutPowerUp(strafeText));
             }
         }
         if (jumpText != null && jumpText.activeSelf == true)
         {
             if ((Input.GetKey(KeyCode.Space)))
             {
-                jumpText.SetActive(false);
+                StartCoroutine(FadeOutPowerUp(jumpText));
             }
         }
         if (levitateText != null && levitateText.activeSelf == true)
         {
             if ((Input.GetKey(KeyCode.Space)))
             {
-                levitateText.SetActive(false);
+                StartCoroutine(FadeOutPowerUp(levitateText));
             }
         }
         if (sprintText != null && sprintText.activeSelf == true)
         {
             if ((Input.GetKey(KeyCode.LeftShift)))
             {
-                sprintText.SetActive(false);
+                StartCoroutine(FadeOutPowerUp(sprintText));
             }
         }
 
@@ -107,7 +109,7 @@ public class PowerupTracker : MonoBehaviour
 		Destroy (backwardPowerUp);
         if (backwardText != null)
         {
-            backwardText.SetActive(true);
+            StartCoroutine(FadeInPowerUp(backwardText));
         }
 	}
 
@@ -117,7 +119,7 @@ public class PowerupTracker : MonoBehaviour
 		Destroy (leftRightPowerUp);
         if (strafeText != null)
         {
-            strafeText.SetActive(true);
+            StartCoroutine(FadeInPowerUp(strafeText));
         }
 	}
 
@@ -127,7 +129,7 @@ public class PowerupTracker : MonoBehaviour
 		Destroy (sprintPowerUp);
         if (sprintText != null)
         {
-            sprintText.SetActive(true);
+            StartCoroutine(FadeInPowerUp(sprintText));
         }
 	}
 
@@ -155,7 +157,7 @@ public class PowerupTracker : MonoBehaviour
 		Destroy (jumpPowerUp);
         if (jumpText != null)
         {
-            jumpText.SetActive(true);
+            StartCoroutine(FadeInPowerUp(jumpText));
         }
 	}
 
@@ -171,7 +173,8 @@ public class PowerupTracker : MonoBehaviour
 		Destroy(levitatePowerUp);
         if (levitateText != null)
         {
-            levitateText.SetActive(true);
+            StartCoroutine(FadeInPowerUp(levitateText));
+            
         }
 	}
 
@@ -219,4 +222,35 @@ public class PowerupTracker : MonoBehaviour
 	{
 		return canDoubleJump;
 	}
+
+    private IEnumerator FadeOutPowerUp(GameObject powerup)
+    {
+        foreach (Transform child in powerup.transform)
+        {
+            child.GetComponent<RawImage>().CrossFadeAlpha(0.0f, fadeTime / 2.0f , false);
+        }
+
+        float timer = 0.0f;
+        while(timer < fadeTime + 1.0f)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+        }
+        powerup.SetActive(false);
+    }
+
+    private IEnumerator FadeInPowerUp(GameObject powerup)
+    {
+        foreach (Transform child in powerup.transform)
+        {
+            child.GetComponent<CanvasRenderer>().SetAlpha(0.0f);
+        }
+        powerup.SetActive(true);
+
+        foreach (Transform child in powerup.transform)
+        {
+            child.GetComponent<RawImage>().CrossFadeAlpha(2.0f, fadeTime/2.0f, false);
+        }
+        yield return null;
+    }
 }
