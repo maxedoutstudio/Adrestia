@@ -15,6 +15,7 @@ public class resumeScript : MonoBehaviour
     public void play()
     {
         menu.SetActive(false);
+		Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         Instantiate(myClosePause);
     }

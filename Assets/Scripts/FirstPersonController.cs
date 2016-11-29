@@ -277,17 +277,19 @@ public class FirstPersonController : MonoBehaviour {
 			waiting = false;
 		}
             
-        if(Input.GetKeyDown(KeyCode.Escape))
+		if(Input.GetKeyDown(KeyCode.Tab))
         {
             if(menu.activeSelf == true)
             {
                 menu.SetActive(false);
+				Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 Instantiate(myClosePause);
             }
             else if(menu.activeSelf == false)
             {
                 menu.SetActive(true);
+				Cursor.lockState = CursorLockMode.None;
                 Cursor.visible = true;
                 Instantiate(myOpenPause);
             }
