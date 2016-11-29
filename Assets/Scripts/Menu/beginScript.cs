@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class chapterSelectScript : MonoBehaviour 
-{
+public class beginScript : MonoBehaviour {
+
+    public GameObject storyUI;
     public GameObject menu1;
-    public GameObject menu2;
 
     public AudioSource openMenu;
     AudioSource myOpenMenu;
@@ -17,23 +17,23 @@ public class chapterSelectScript : MonoBehaviour
         myCloseMenu = closeMenu.GetComponent<AudioSource>();
     }
 
-    public void play()
-    {
-        menu1.SetActive(false);
-        menu2.SetActive(true);
-        Instantiate(myOpenMenu);
-    }
-
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Escape))
         {
-            if(menu2.activeSelf == true)
+            if(storyUI.activeSelf == true)
             {
-                menu2.SetActive(false);
+                storyUI.SetActive(false);
                 menu1.SetActive(true);
                 Instantiate(myCloseMenu);
             }
         }
+    }
+
+    public void play()
+    {
+        menu1.SetActive(false);
+        storyUI.SetActive(true);
+        Instantiate(myOpenMenu);
     }
 }

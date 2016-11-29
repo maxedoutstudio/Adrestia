@@ -33,6 +33,11 @@ public class FirstPersonController : MonoBehaviour {
 	public AudioClip walkingSound;
     public AudioClip powerSwitchSound;
 
+    public AudioSource openPause;
+    AudioSource myOpenPause;
+    public AudioSource closePause;
+    AudioSource myClosePause;
+
     // Skills
     public ParticleSystem myParticlesFire;
     public ParticleSystem myParticlesWater;
@@ -78,6 +83,8 @@ public class FirstPersonController : MonoBehaviour {
 
     void Start()
     {
+        myOpenPause = openPause.GetComponent<AudioSource>();
+        myClosePause = closePause.GetComponent<AudioSource>();
         myDeathSound = deathSound.GetComponent<AudioSource>();
         myLevitateSound = levitateSound.GetComponent<AudioSource>();
         myPickupSound = pickupSound.GetComponent<AudioSource>();
@@ -268,6 +275,25 @@ public class FirstPersonController : MonoBehaviour {
 			waiting = false;
 		}
 
+<<<<<<< Updated upstream
+=======
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(menu.activeSelf == true)
+            {
+                menu.SetActive(false);
+                Cursor.visible = false;
+                Instantiate(myClosePause);
+            }
+            else if(menu.activeSelf == false)
+            {
+                menu.SetActive(true);
+                Cursor.visible = true;
+                Instantiate(myOpenPause);
+            }
+        }
+
+>>>>>>> Stashed changes
         // Animation toggles
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRunning", isRunning);
