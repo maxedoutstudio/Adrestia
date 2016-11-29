@@ -349,6 +349,26 @@ public class FirstPersonController : MonoBehaviour {
             GameObject.Find("boat2").transform.position = new Vector3(-5.9f,62.8f,107f);
             GameObject.Find("boat2").transform.rotation = new Quaternion(0.5f, 0f, 0f, 0.9f);
         }
+
+
+		if (col.gameObject.tag == "SpearTrapThunder" || col.gameObject.tag == "NeedleTrapThunder" || col.gameObject.tag == "SawBladeTrapThunder" || col.gameObject.tag == "GreatBladeTrapThunder" || col.gameObject.name == "ThunderPlanet"  ) {
+			Instantiate (myDeathSound);
+			transform.position = new Vector3(10f, 403f, -23f);
+		}
+
+		if (col.gameObject.tag == "orb" ) {
+
+			Destroy(GameObject.FindGameObjectWithTag("orb2"));
+			Destroy(GameObject.Find("orb"));
+			Instantiate (lightningSound);
+			Destroy(GameObject.Find("LightningWallExit"));
+		}
+
+		if (col.gameObject.tag == "orb2" ) {
+
+			Destroy(GameObject.FindGameObjectWithTag("orb2"));
+			Destroy(GameObject.Find("blocker_4"));
+		}
 	}
 
 	public void playDeathSound() {
