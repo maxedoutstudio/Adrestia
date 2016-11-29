@@ -15,6 +15,8 @@ public class FirstPersonController : MonoBehaviour {
 	public LayerMask groundedMask;
 	public PowerupTracker put_GO;
 
+    public GameObject menu;
+
     public GameObject UIWater;
     public GameObject UIFire;
     public GameObject UILightning;
@@ -274,9 +276,7 @@ public class FirstPersonController : MonoBehaviour {
 			nextAttackDelay = Time.time + 0.5f;
 			waiting = false;
 		}
-
-<<<<<<< Updated upstream
-=======
+            
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             if(menu.activeSelf == true)
@@ -293,7 +293,6 @@ public class FirstPersonController : MonoBehaviour {
             }
         }
 
->>>>>>> Stashed changes
         // Animation toggles
         animator.SetBool("isWalking", isWalking);
         animator.SetBool("isRunning", isRunning);
