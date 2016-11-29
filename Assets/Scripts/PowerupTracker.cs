@@ -37,6 +37,9 @@ public class PowerupTracker : MonoBehaviour
     public GameObject jumpText;
     public GameObject levitateText;
     public GameObject sprintText;
+    public GameObject waterText;
+    public GameObject fireText;
+    public GameObject lightningText;
 
     public float fadeTime;
 
@@ -82,6 +85,27 @@ public class PowerupTracker : MonoBehaviour
             if ((Input.GetKey(KeyCode.LeftShift)))
             {
                 StartCoroutine(FadeOutPowerUp(sprintText));
+            }
+        }
+        if (waterText != null && waterText.activeSelf == true)
+        {
+            if ((Input.GetKey("1")))
+            {
+                StartCoroutine(FadeOutPowerUp(waterText));
+            }
+        }
+        if (fireText != null && fireText.activeSelf == true)
+        {
+            if ((Input.GetKey("2")))
+            {
+                StartCoroutine(FadeOutPowerUp(fireText));
+            }
+        }
+        if (lightningText != null && lightningText.activeSelf == true)
+        {
+            if ((Input.GetKey("3")))
+            {
+                StartCoroutine(FadeOutPowerUp(lightningText));
             }
         }
 
@@ -142,18 +166,30 @@ public class PowerupTracker : MonoBehaviour
 	{
 		canFire = true;
 		Destroy (firePowerUp);
+        if (fireText != null)
+        {
+            StartCoroutine(FadeInPowerUp(fireText));
+        }
 	}
 
 	public void aquireLightning()
 	{
 		canLightning = true;
 		Destroy (lightningPowerUp);
+        if (lightningText != null)
+        {
+            StartCoroutine(FadeInPowerUp(lightningText));
+        }
 	}
 
 	public void aquireWater()
 	{
 		canWater = true;
 		Destroy (waterPowerUp);
+        if (waterText != null)
+        {
+            StartCoroutine(FadeInPowerUp(waterText));
+        }
 	}
 
 	public void aquireJump()
