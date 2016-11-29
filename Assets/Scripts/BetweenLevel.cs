@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class buttonScript : MonoBehaviour 
-{
+public class BetweenLevel : MonoBehaviour {
+
     public GameObject loadingScreen;
     public AudioSource startSound;
     AudioSource myStartSound;
@@ -15,6 +15,8 @@ public class buttonScript : MonoBehaviour
     public void play()
 	{
         Instantiate(myStartSound);
+        transform.gameObject.SetActive(false);
+        Cursor.visible = false;
         loadingScreen.SetActive(true);
 	}
 }
