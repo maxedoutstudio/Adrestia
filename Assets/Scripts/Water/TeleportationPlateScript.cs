@@ -100,6 +100,7 @@ public class TeleportationPlateScript : MonoBehaviour
             }
             else
             {
+                Destroy(GameObject.Find("warpSound(Clone)"));
                 loadingScreen.SetActive(true);
             }
             //SceneManager.LoadScene("FirePlanet");
