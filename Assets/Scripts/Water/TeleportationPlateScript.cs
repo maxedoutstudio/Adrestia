@@ -15,6 +15,9 @@ public class TeleportationPlateScript : MonoBehaviour
     public AudioSource warpSound;
     AudioSource myWarpSound;
 
+    public AudioSource openSound;
+    AudioSource myOpenSound;
+
     public GameObject powerUpTracker;
     PowerupTracker myPowerUpTrackerScript;
 
@@ -22,6 +25,7 @@ public class TeleportationPlateScript : MonoBehaviour
 
     void Start()
     {
+        myOpenSound = openSound.GetComponent<AudioSource>();
         myPowerUpTrackerScript = powerUpTracker.GetComponent<PowerupTracker>();
         myWarpSound = warpSound.GetComponent<AudioSource>();
 
@@ -47,15 +51,17 @@ public class TeleportationPlateScript : MonoBehaviour
         {
             //Instantiate(myWarpSound);
 
+            Destroy(GameObject.Find("warpSound(Clone)"));
+
             if (sceneStory != null)
             {
+                Instantiate(myOpenSound);
                 Cursor.visible = true;
                 Cursor.lockState = CursorLockMode.None;
                 sceneStory.SetActive(true);
             }
             else
             {
-                Destroy(GameObject.Find("warpSound(Clone)"));
                 loadingScreen.SetActive(true);
             }
             //SceneManager.LoadScene("FirePlanet");
