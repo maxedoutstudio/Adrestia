@@ -118,8 +118,8 @@ public class FirstPersonController : MonoBehaviour {
 	void Update() {
 		
         // Make sure movement mechanics are unlocked
-		if (((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D)) && put_GO.getCanLeftRight())
-			|| (Input.GetKey(KeyCode.S) && put_GO.getCanBackward()) || Input.GetKey(KeyCode.W)) 
+		if (((Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow)) && put_GO.getCanLeftRight())
+			|| ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow)) && put_GO.getCanBackward()) || Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow)) 
         {
             isWalking = true;
         } 
@@ -145,7 +145,7 @@ public class FirstPersonController : MonoBehaviour {
 
 		// Calculate movement:
 		float inputX = put_GO.getCanLeftRight() ? Input.GetAxisRaw("Horizontal") : 0;
-		float inputY = (!put_GO.getCanBackward() && Input.GetKey(KeyCode.S)) ? 0 : Input.GetAxisRaw("Vertical");
+		float inputY = (!put_GO.getCanBackward() && (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))) ? 0 : Input.GetAxisRaw("Vertical");
 
         Vector3 moveDir = new Vector3(inputX, 0, inputY).normalized;
 		Vector3 targetMoveAmount = moveDir * (isRunning ? runSpeed : walkSpeed);
@@ -277,7 +277,7 @@ public class FirstPersonController : MonoBehaviour {
 			waiting = false;
 		}
             
-		if(Input.GetKeyDown(KeyCode.Tab))
+		if(Input.GetKeyDown(KeyCode.Escape))
         {
             if(menu.activeSelf == true)
             {
