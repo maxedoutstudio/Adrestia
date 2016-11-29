@@ -9,9 +9,7 @@ public class CratePuzzle : MonoBehaviour
 	public GameObject crate4;
 	public GameObject crate5;
 	public GameObject crate6;
-	public GameObject crate7;
-	public GameObject crate8;
-	public GameObject crate9;
+
 
 
 
